@@ -6,7 +6,7 @@
 | ---- | ---------- | --------------- | ------- |
 | v1.0 | 2016.02.02 | 建表              | waydrow |
 | v1.1 | 2016.02.03 | 修改apply表中time类型 | waydrow |
-|      |            |                 |         |
+| v1.2 | 2016.02.03 | 添加admin表        | waydrow |
 
 ### volunteer (志愿者表)
 
@@ -74,3 +74,12 @@
 | activityid | int      | 活动id(外键)          |      |
 | time       | datetime | 报名时间              |      |
 | rate       | int      | 组织者对志愿者的评分(10分满分) |      |
+
+### admin (管理员表)
+
+| 字段       | 类型      | 说明   | 默认值  |
+| -------- | ------- | ---- | ---- |
+| id       | int     | 标识   |      |
+| account  | varchar | 帐号   |      |
+| password | varchar | 密码   |      |
+| name     | varchar | 昵称   |      |
