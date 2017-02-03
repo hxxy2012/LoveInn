@@ -6,55 +6,55 @@
 
 ## 1. 登录
 
-##### 1.1 interface
+### 1.1 interface
 
 `login`
 
-##### 1.2 method
+### 1.2 method
 
 Post
 
-##### 1.3 send
+### 1.3 send
 
 -   username
 -   password
 
-##### 1.4 return
+### 1.4 return
 
 -   user_id: 登录成功
 -   0: 失败
 
 ## 2. 注册
 
-##### 2.1 interface
+### 2.1 interface
 
 `register`
 
-##### 2.2 method
+### 2.2 method
 
 get/post
 
-##### 2.3 send
+### 2.3 send
 
 -   username
 -   password
 
-##### 2.4 return
+### 2.4 return
 
 -   0: 用户名重复
 -   user_id: 成功
 
 ## 3.获取活动列表
 
-##### 3.1 interface
+### 3.1 interface
 
 `getActivityList`
 
-##### 3.2 method
+### 3.2 method
 
 get
 
-##### 3.3 return
+### 3.3 return
 
 example:
 
@@ -75,19 +75,19 @@ example:
 
 ## 4. 按id获取活动详情
 
-##### 4.1 interface
+### 4.1 interface
 
 `getActivityInfoById`
 
-##### 4.2 method
+### 4.2 method
 
 get/post
 
-##### 4.3 send
+### 4.3 send
 
 -   id
 
-##### 4.4 return
+### 4.4 return
 
 example
 
