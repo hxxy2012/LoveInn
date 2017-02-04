@@ -29,18 +29,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".WelcomeActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".LoginActivity" />
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".LoginActivity" android:label="登陆" >
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>>
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
 
