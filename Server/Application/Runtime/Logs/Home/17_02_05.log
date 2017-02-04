@@ -1,0 +1,10 @@
+[ 2017-02-05T00:13:19+08:00 ] ::1 /LoveInn/index.php/Home/App/getVolunteerInfo
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001358s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001651s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001761s ]
+SQL: SHOW COLUMNS FROM `volunteer` [ RunTime:0.0103s ]
+SQL: SELECT * FROM `volunteer` WHERE ( id=1 ) LIMIT 1   [ RunTime:0.0006s ]
+
