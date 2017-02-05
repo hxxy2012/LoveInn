@@ -178,6 +178,45 @@ class IndexController extends Controller {
         }
     }
 
+    // 活动列表管理
+    public function activities() {
+        $this->isAdminLogin();
+        $activities = D('ActivityView');
+        $list = $activities->where('isend=0')->order('category_name')->select();
+        $this->assign('list', $list);
+        $this->display();
+    }
+
+    // 删除活动
+    public function delactivity() {
+        $this->isAdminLogin();
+        $id = I('id');
+        $activity = M('activity');
+        $result = $activity->where('id=%d', $id)->delete();
+        if($result) {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('删除成功');</script>";
+            $this->redirect("/Home/Index/activities");
+        } else {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo '<script type="text/javascript">alert("删除失败")</script>';
+            $this->redirect("/Home/Index/activities");
+        }
+    }
+
+    // 查看报名列表
+    public function applies() {
+        $this->isAdminLogin();
+        $applies = D('ApplyView');
+        $list = $applies->distinct(true)->field('activity_id,activity_name')->where('isjoin=1')->select();
+        foreach ($list as &$item) {
+            $activity_id = $item['activity_id'];
+            $item['sub'] = $applies->where('activityid=%d and isjoin=1',$activity_id)->field('id,user_id,user_name,time,rate,isjoin,user_realname')->select();
+        }
+        $this->assign('list', $list);
+        $this->display();
+    }
+
 
     // 志愿者列表_已通过审核
     public function volunteers() {

@@ -19,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
 
+
+
 </head>
 <body class=" theme-blue">
 
@@ -136,7 +138,7 @@
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动分类</a></li>
+                    <li><a href="<?php echo U('/Home/Index/categorys');?>"><span class="fa fa-caret-right"></span>活动分类</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
@@ -148,8 +150,8 @@
             <li>
                 <ul class="premium-menu nav nav-list collapse in">
                     <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a>
-                    <li><a href="<?php echo U('/Home/Index/petslist');?>"><span class="fa fa-caret-right"></span>志愿者列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/lookafter');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/volunteers');?>"><span class="fa fa-caret-right"></span>志愿者列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/volunteers_auth');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
                 </ul>
             </li>
 

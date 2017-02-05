@@ -12,12 +12,14 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css">
 
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/LoveInn/Public/lib/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/LoveInn/Public/lib/font-awesome/css/font-awesome.min.css">
 
     <script src="/LoveInn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
+
+
 
 </head>
 <body class=" theme-blue">
@@ -126,16 +128,17 @@
         </li>
         <li>
             <ul class="dashboard-menu nav nav-list collapse in">
-                <li><a href="<?php echo U('/Home/Index/Index');?>"><span class="fa fa-caret-right"></span>后台首页</a></li>
+                <li><a href="<?php echo U('/Home/Index/index');?>"><span class="fa fa-caret-right"></span>后台首页</a></li>
             </ul>
         </li>
+        <!--判断用户权限 0为管理员, 1为组织者-->
         <?php if($power == 0): ?><li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".room-menu"
                                                                             class="nav-header"
                                                                             data-toggle="collapse"><i
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动分类</a></li>
+                    <li><a href="<?php echo U('/Home/Index/categorys');?>"><span class="fa fa-caret-right"></span>活动分类</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
@@ -147,8 +150,8 @@
             <li>
                 <ul class="premium-menu nav nav-list collapse in">
                     <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a>
-                    <li><a href="<?php echo U('/Home/Index/petslist');?>"><span class="fa fa-caret-right"></span>志愿者列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/lookafter');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/volunteers');?>"><span class="fa fa-caret-right"></span>志愿者列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/volunteers_auth');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
                 </ul>
             </li>
 
@@ -156,8 +159,8 @@
                     class="fa fa-fw fa-briefcase"></i>组织者管理<span class="label label-info">+3</span></a></li>
             <li>
                 <ul class="accounts-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/careworkers');?>"><span class="fa fa-caret-right"></span>组织者列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/petsUser');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/agencys');?>"><span class="fa fa-caret-right"></span>组织者列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/agencys_auth');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
                 </ul>
             </li>
 

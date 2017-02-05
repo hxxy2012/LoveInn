@@ -1,4 +1,4 @@
-<!doctype html>
+<?php if (!defined('THINK_PATH')) exit();?><!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -11,13 +11,13 @@
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css">
 
-    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="__PUBLIC__/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/LoveInn/Public/lib/font-awesome/css/font-awesome.min.css">
 
-    <script src="__PUBLIC__/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/LoveInn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" type="text/css" href="__PUBLIC__/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="__PUBLIC__/stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
 
 
 
@@ -104,17 +104,15 @@
             <li class="btn-group">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user padding-right-small"
-                          style="position:relative;top: 3px;"></span> {$name}
+                          style="position:relative;top: 3px;"></span> <?php echo ($name); ?>
                     <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                    <if condition="$power eq 0 ">
-                        <li><a href="{:U('/Home/Index/order')}">宠物</a></li>
-                        <else />
-                        <li><a href="{:U('/Home/Index/users')}">用户</a></li>
-                    </if>
+                    <?php if($power == 0 ): ?><li><a href="<?php echo U('/Home/Index/order');?>">宠物</a></li>
+                        <?php else: ?>
+                        <li><a href="<?php echo U('/Home/Index/users');?>">用户</a></li><?php endif; ?>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="{:U('/Home/Index/login')}">退出</a></li>
+                    <li><a tabindex="-1" href="<?php echo U('/Home/Index/login');?>">退出</a></li>
                 </ul>
             </li>
         </ul>
@@ -130,20 +128,19 @@
         </li>
         <li>
             <ul class="dashboard-menu nav nav-list collapse in">
-                <li><a href="{:U('/Home/Index/index')}"><span class="fa fa-caret-right"></span>后台首页</a></li>
+                <li><a href="<?php echo U('/Home/Index/index');?>"><span class="fa fa-caret-right"></span>后台首页</a></li>
             </ul>
         </li>
         <!--判断用户权限 0为管理员, 1为组织者-->
-        <if condition="$power eq 0">
-            <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".room-menu"
+        <?php if($power == 0): ?><li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".room-menu"
                                                                             class="nav-header"
                                                                             data-toggle="collapse"><i
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="{:U('/Home/Index/categorys')}"><span class="fa fa-caret-right"></span>活动分类</a></li>
-                    <li><a href="{:U('/Home/Index/activities')}"><span class="fa fa-caret-right"></span>活动列表</a></li>
-                    <li><a href="{:U('/Home/Index/applies')}"><span class="fa fa-caret-right"></span>报名管理</a></li>
+                    <li><a href="<?php echo U('/Home/Index/categorys');?>"><span class="fa fa-caret-right"></span>活动分类</a></li>
+                    <li><a href="<?php echo U('/Home/Index/activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/applies');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".premium-menu"
@@ -153,8 +150,8 @@
             <li>
                 <ul class="premium-menu nav nav-list collapse in">
                     <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a>
-                    <li><a href="{:U('/Home/Index/volunteers')}"><span class="fa fa-caret-right"></span>志愿者列表</a></li>
-                    <li><a href="{:U('/Home/Index/volunteers_auth')}"><span class="fa fa-caret-right"></span>待审核列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/volunteers');?>"><span class="fa fa-caret-right"></span>志愿者列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/volunteers_auth');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
                 </ul>
             </li>
 
@@ -162,8 +159,8 @@
                     class="fa fa-fw fa-briefcase"></i>组织者管理<span class="label label-info">+3</span></a></li>
             <li>
                 <ul class="accounts-menu nav nav-list collapse in">
-                    <li><a href="{:U('/Home/Index/agencys')}"><span class="fa fa-caret-right"></span>组织者列表</a></li>
-                    <li><a href="{:U('/Home/Index/agencys_auth')}"><span class="fa fa-caret-right"></span>待审核列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/agencys');?>"><span class="fa fa-caret-right"></span>组织者列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/agencys_auth');?>"><span class="fa fa-caret-right"></span>待审核列表</a></li>
                 </ul>
             </li>
 
@@ -171,19 +168,19 @@
                     class="fa fa-fw fa-legal"></i>管理员管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="legal-menu nav nav-list collapse in">
-                    <li><a href="{:U('/Home/Index/admins')}"><span class="fa fa-caret-right"></span>管理员列表</a></li>
-                    <li><a href="{:U('/Home/Index/addadmin')}"><span class="fa fa-caret-right"></span>新增管理员</a></li>
+                    <li><a href="<?php echo U('/Home/Index/admins');?>"><span class="fa fa-caret-right"></span>管理员列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/addadmin');?>"><span class="fa fa-caret-right"></span>新增管理员</a></li>
                 </ul>
             </li>
-            <else />
+            <?php else: ?>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".room-menu"
                                                                             class="nav-header"
                                                                             data-toggle="collapse"><i
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="{:U('/Home/Index/rooms')}"><span class="fa fa-caret-right"></span>活动列表</a></li>
-                    <li><a href="{:U('/Home/Index/rooms')}"><span class="fa fa-caret-right"></span>报名管理</a></li>
+                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
 
@@ -191,11 +188,10 @@
                     class="fa fa-fw fa-briefcase"></i>个人管理<span class="label label-info">+3</span></a></li>
             <li>
                 <ul class="accounts-menu nav nav-list collapse in">
-                    <li><a href="{:U('/Home/Index/careworkers')}"><span class="fa fa-caret-right"></span>实名认证</a></li>
-                    <li><a href="{:U('/Home/Index/petsUser')}"><span class="fa fa-caret-right"></span>我的资料</a></li>
+                    <li><a href="<?php echo U('/Home/Index/careworkers');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
+                    <li><a href="<?php echo U('/Home/Index/petsUser');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
                 </ul>
-            </li>
-        </if>
+            </li><?php endif; ?>
 
         <li><a href="#" class="nav-header"><i class="fa fa-fw fa-question-circle"></i>帮助</a></li>
     </ul>
@@ -205,9 +201,28 @@
 <div class="content">
     <div class="main-content">
 
-        <include file="Public:header"/>
-        {__CONTENT__}
-        <include file="Public:footer"/>
+        
+        <h2 class="header-dividing">活动报名列表(已通过)</h2>
+<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><h4 class="header-dividing"><?php echo ($vo["activity_name"]); ?></h4>
+    <table class="table" style="width: 50%;">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>用户姓名</th>
+            <th>用户帐号</th>
+            <th>报名时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if(is_array($vo['sub'])): $k = 0; $__LIST__ = $vo['sub'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$sub): $mod = ($k % 2 );++$k;?><tr>
+                <td><?php echo ($k); ?></td>
+                <td><?php echo ($sub["user_realname"]); ?></td>
+                <td><?php echo ($sub["user_name"]); ?></td>
+                <td><?php echo ($sub["time"]); ?></td>
+            </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+        </tbody>
+    </table><?php endforeach; endif; else: echo "" ;endif; ?>
+        
 
 
     </div>
@@ -216,7 +231,7 @@
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
 <script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>
 
-<!--<script src="__PUBLIC__/lib/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script src="/LoveInn/Public/lib/bootstrap/js/bootstrap.min.js"></script>-->
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

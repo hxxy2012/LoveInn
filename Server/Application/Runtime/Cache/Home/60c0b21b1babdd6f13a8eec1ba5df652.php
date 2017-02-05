@@ -139,7 +139,7 @@
             <li>
                 <ul class="room-menu nav nav-list collapse in">
                     <li><a href="<?php echo U('/Home/Index/categorys');?>"><span class="fa fa-caret-right"></span>活动分类</a></li>
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
@@ -313,17 +313,17 @@
                 method: 'POST',
                 data: data
             }).done(function(dataget) {
-                if(dataget == 1) {
+                if(dataget == 1) { // 成功修改
                     $("#category_name_input").val(new_name);
                     $(tdid).text(new_name);
                     $(".alert-success").show();
-                } else if(dataget == 0) {
+                } else if(dataget == 0) { // 名字重复
                     $(".alert-danger").show();
-                } else {
+                } else { // 修改失败
                     $(".alert-warning").show();
                 }
 //                console.log('change succeed');
-            }).fail(function() {
+            }).fail(function() { // 未响应
                 console.log('change error');
             });
         });
@@ -337,9 +337,9 @@
         }
     }
 
+    // 添加种类时不可以为空
     function checkInput() {
         var a_name = $('#add_category_input').val().trim();
-        console.log('22222');
         if(a_name == "") {
             alert('不可以为空');
             return false;
