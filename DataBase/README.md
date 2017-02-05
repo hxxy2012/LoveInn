@@ -7,7 +7,7 @@
 | v1.0 | 2016.02.02 | 建表                 | waydrow |
 | v1.1 | 2016.02.03 | 修改apply表中time类型    | waydrow |
 | v1.2 | 2016.02.03 | 添加admin表           | waydrow |
-| v1.3 | 2016.02.05 | 在apply表中添加ispass字段 | waydrow |
+| v1.3 | 2016.02.05 | 在apply表中添加isjoin字段 | waydrow |
 
 ### volunteer (志愿者表)
 
@@ -75,7 +75,7 @@
 | activityid | int          | 活动id(外键)          |                   |
 | time       | timestamp(4) | 报名时间              | CURRENT_TIMESTAMP |
 | rate       | int          | 组织者对志愿者的评分(10分满分) |                   |
-| ispass     | int          | 审核是否通过(-1/0/1)    | 0                 |
+| isjoin     | int          | 审核是否通过(-1/0/1)    | 0                 |
 
 ### admin (管理员表)
 
