@@ -2,31 +2,32 @@
 
 ### 迭代记录
 
-| 版本   | 时间         | 说明                 | 修改者     |
-| ---- | ---------- | ------------------ | ------- |
-| v1.0 | 2016.02.02 | 建表                 | waydrow |
-| v1.1 | 2016.02.03 | 修改apply表中time类型    | waydrow |
-| v1.2 | 2016.02.03 | 添加admin表           | waydrow |
-| v1.3 | 2016.02.05 | 在apply表中添加isjoin字段 | waydrow |
+| 版本   | 时间         | 说明                                 | 修改者     |
+| ---- | ---------- | ---------------------------------- | ------- |
+| v1.0 | 2016.02.02 | 建表                                 | waydrow |
+| v1.1 | 2016.02.03 | 修改apply表中time类型                    | waydrow |
+| v1.2 | 2016.02.03 | 添加admin表                           | waydrow |
+| v1.3 | 2016.02.05 | 在apply表中添加isjoin字段                 | waydrow |
+| v1.4 | 2016.02.05 | 修改volunteer和agency表, ispass字段默认为-1 | waydrow |
 
 ### volunteer (志愿者表)
 
-| 字段       | 类型      | 说明               | 默认值     |
-| -------- | ------- | ---------------- | ------- |
-| id       | int     | 标识               |         |
-| username | varchar | 用户名(默认为学号)       |         |
-| password | varchar | 密码(md5)          |         |
-| avatar   | varchar | 个人头像             |         |
-| realname | varchar | 真实姓名             |         |
-| age      | int     | 年龄               |         |
-| sex      | varchar | 性别(m/f)          |         |
-| idcard   | varchar | 身份证              |         |
-| phone    | varchar | 电话               |         |
-| email    | varchar | 电子邮箱             |         |
-| info     | varchar | 个人简介             |         |
-| stucard  | varchar | 学生证照片(审核使用)      |         |
-| money    | int     | 爱心币(活动评分/2取整 累加) | 0       |
-| ispass   | int     | 注册审核(-1/0/1)     | 0 (待审核) |
+| 字段       | 类型      | 说明               | 默认值      |
+| -------- | ------- | ---------------- | -------- |
+| id       | int     | 标识               |          |
+| username | varchar | 用户名(默认为学号)       |          |
+| password | varchar | 密码(md5)          |          |
+| avatar   | varchar | 个人头像             |          |
+| realname | varchar | 真实姓名             |          |
+| age      | int     | 年龄               |          |
+| sex      | varchar | 性别(m/f)          |          |
+| idcard   | varchar | 身份证              |          |
+| phone    | varchar | 电话               |          |
+| email    | varchar | 电子邮箱             |          |
+| info     | varchar | 个人简介             |          |
+| stucard  | varchar | 学生证照片(审核使用)      |          |
+| money    | int     | 爱心币(活动评分/2取整 累加) | 0        |
+| ispass   | int     | 注册审核(-1/0/1)     | -1默认审核失败 |
 
 ### activity (公益活动表)
 
@@ -54,17 +55,17 @@
 
 ### agency (公益机构表)
 
-| 字段            | 类型      | 说明           | 默认值     |
-| ------------- | ------- | :----------- | ------- |
-| id            | int     | 标识           |         |
-| username      | varchar | 用户名          |         |
-| password      | varchar | 密码           |         |
-| name          | varchar | 机构名          |         |
-| photo         | varchar | 机构图片         |         |
-| address       | varchar | 地址           |         |
-| contact       | varchar | 联系方式         |         |
-| certification | varchar | 审核材料(营业执照等)  |         |
-| ispass        | int     | 注册审核(-1/0/1) | 0 (待审核) |
+| 字段            | 类型      | 说明           | 默认值        |
+| ------------- | ------- | :----------- | ---------- |
+| id            | int     | 标识           |            |
+| username      | varchar | 用户名          |            |
+| password      | varchar | 密码           |            |
+| name          | varchar | 机构名          |            |
+| photo         | varchar | 机构图片         |            |
+| address       | varchar | 地址           |            |
+| contact       | varchar | 联系方式         |            |
+| certification | varchar | 审核材料(营业执照等)  |            |
+| ispass        | int     | 注册审核(-1/0/1) | -1(默认审核失败) |
 
 ### apply (报名表)
 
