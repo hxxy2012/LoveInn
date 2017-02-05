@@ -108,11 +108,11 @@
                     <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                    <?php if($power == 0 ): ?><li><a href="<?php echo U('/Home/Index/order');?>">宠物</a></li>
+                    <?php if($power == 0 ): ?><li><a href="<?php echo U('/Home/Index/order');?>"></a></li>
                         <?php else: ?>
-                        <li><a href="<?php echo U('/Home/Index/users');?>">用户</a></li><?php endif; ?>
+                        <li><a href="<?php echo U('/Home/Index/a_myinfo');?>">我的资料</a></li><?php endif; ?>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="<?php echo U('/Home/Index/login');?>">退出</a></li>
+                    <li><a tabindex="-1" href="<?php echo U('/Home/Index/quitlogin');?>">退出</a></li>
                 </ul>
             </li>
         </ul>
@@ -172,6 +172,7 @@
                     <li><a href="<?php echo U('/Home/Index/addadmin');?>"><span class="fa fa-caret-right"></span>新增管理员</a></li>
                 </ul>
             </li>
+            <!--为组织者登录-->
             <?php else: ?>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".room-menu"
                                                                             class="nav-header"
@@ -188,8 +189,8 @@
                     class="fa fa-fw fa-briefcase"></i>个人管理<span class="label label-info">+3</span></a></li>
             <li>
                 <ul class="accounts-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/careworkers');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
-                    <li><a href="<?php echo U('/Home/Index/petsUser');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_auth');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_myinfo');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
                 </ul>
             </li><?php endif; ?>
 
@@ -203,25 +204,29 @@
 
         
         <h2 class="header-dividing">活动报名列表(已通过)</h2>
-<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><h4 class="header-dividing"><?php echo ($vo["activity_name"]); ?></h4>
-    <table class="table" style="width: 50%;">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>用户姓名</th>
-            <th>用户帐号</th>
-            <th>报名时间</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php if(is_array($vo['sub'])): $k = 0; $__LIST__ = $vo['sub'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$sub): $mod = ($k % 2 );++$k;?><tr>
-                <td><?php echo ($k); ?></td>
-                <td><?php echo ($sub["user_realname"]); ?></td>
-                <td><?php echo ($sub["user_name"]); ?></td>
-                <td><?php echo ($sub["time"]); ?></td>
-            </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-        </tbody>
-    </table><?php endforeach; endif; else: echo "" ;endif; ?>
+<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="panel" style="width: 50%;">
+        <div class="panel-heading">
+            <p style="font-size: 20px; font-weight: bold;"><?php echo ($vo["activity_name"]); ?></p>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>用户姓名</th>
+                <th>用户帐号</th>
+                <th>报名时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php if(is_array($vo['sub'])): $k = 0; $__LIST__ = $vo['sub'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$sub): $mod = ($k % 2 );++$k;?><tr>
+                    <td><?php echo ($k); ?></td>
+                    <td><?php echo ($sub["user_realname"]); ?></td>
+                    <td><?php echo ($sub["user_name"]); ?></td>
+                    <td><?php echo ($sub["time"]); ?></td>
+                </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+            </tbody>
+        </table>
+    </div><?php endforeach; endif; else: echo "" ;endif; ?>
         
 
 

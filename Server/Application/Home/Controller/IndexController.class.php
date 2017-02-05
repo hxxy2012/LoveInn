@@ -22,6 +22,9 @@ class IndexController extends Controller {
                     $admin = M('admin')->where("account='" . $adminaccount . "'")->select();
                 } else {
                     $admin = M('agency')->where("username='" . $adminaccount . "'")->select();
+                    $ispass = $admin[0]['ispass'];
+                    $_SESSION['ispass'] = $ispass;
+                    $this->assign("ispass", $ispass);
                 }
 
                 $name = $admin[0]['name'];
@@ -63,7 +66,7 @@ class IndexController extends Controller {
                 }
 
                 if ($result) {
-                    //将用户账号用权限存入session
+                    //将用户账号及权限存入session
                     $_SESSION['account'] = $adminaccount;
                     if($flag == 0) { // 0表示管理员
                         $_SESSION['power'] = 0;
@@ -79,6 +82,15 @@ class IndexController extends Controller {
                 }
             }
         }
+    }
+
+    public function quitlogin() {
+        $_SESSION['account'] = null;
+        $_SESSION['power'] = null;
+        if($_SESSION['ispass']) {
+            $_SESSION['ispass'] = null;
+        }
+        $this->redirect('/Home/Index/login');
     }
 
 
@@ -365,5 +377,69 @@ class IndexController extends Controller {
     /*****************************************************************************************/
     /*组织者管理后台*/
     /*****************************************************************************************/
+    // 上传图片工具函数
+    private function uploadPhoto($filekey){
+        $upload = new \Think\Upload();// 实例化上传类
+        $upload->maxSize   =     3145728 ;// 设置附件上传大小
+        $upload->exts      =     array('jpg', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath  =      'Public/Uploads/'; // 设置附件上传根目录
+        // 上传单个文件
+        $info   =   $upload->uploadOne($_FILES[$filekey]);
+        if(!$info) {// 上传错误提示错误信息
+            return 0; // 上传失败
+        }else{// 上传成功 获取上传文件信息
+            $dir =  '/LoveInn/Public/Uploads/' . $info['savepath'].$info['savename'];
+            return $dir;
+        }
+    }
+
+    public function a_myinfo() {
+        $this->isAgencyLogin();
+        $agency = M('agency');
+        $data = $agency->where('username="%s"', $_SESSION['account'])->find();
+        $id = $data['id'];
+        if($data['photo'] == null) {
+            $data['hasphoto'] = 0;
+        } else {
+            $data['hasphoto'] = 1;
+        }
+        if($data['certification'] == null) {
+            $data['hascertification'] = 0;
+        } else {
+            $data['hascertification'] = 1;
+        }
+        $this->assign('data', $data);
+        $this->display();
+        if(IS_POST) {
+            $new_agency = M('agency');
+            $new_agency->name = $_POST['name'];
+            $new_agency->address = $_POST['address'];
+            $new_agency->contact = $_POST['contact'];
+            if(!$_FILES['photo']['name'] == "") { // 若上传的图片为空
+                $uploadPhotoResult = $this->uploadPhoto('photo');
+                if(!$uploadPhotoResult == 0) {
+                    $new_agency->photo = $uploadPhotoResult;
+                }
+            }
+            if(!$_FILES['certification']['name'] == "") {
+                $uploadCertificationResult = $this->uploadPhoto('certification');
+                if(!$uploadCertificationResult == 0) {
+                    $new_agency->certification = $uploadCertificationResult;
+                }
+            }
+            $new_agency->ispass = 0; //改为待审核状态
+            $result = $new_agency->where('id=%d', $id)->save();
+            if ($result) {
+                echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                echo "<script>alert('修改成功, 请等待审核');</script>";
+                $this->redirect("/Home/Index/a_myinfo");
+            } else {
+                echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                echo "<script>alert('修改失败');</script>";
+//                dump($result);
+                $this->redirect("/Home/Index/a_myinfo");
+            }
+        }
+    }
 
 }

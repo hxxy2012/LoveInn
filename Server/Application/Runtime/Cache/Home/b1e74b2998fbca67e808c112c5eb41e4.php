@@ -203,45 +203,37 @@
     <div class="main-content">
 
         
-        <h2 class="header-dividing">待审核机构列表</h2>
-<table class="table" style="width: 800px;">
+        <div class="header">
+    <h1 class="page-title">领养记录</h1>
+    <ul class="breadcrumb">
+        <li><a href="<?php echo U("Home/Index/index");?>">主页</a> </li>
+        <li class="active">领养列表</li>
+    </ul>
+</div>
+<table class="table">
     <thead>
     <tr>
         <th>#</th>
-        <th>机构名</th>
-        <th>用户名</th>
+        <th>领养时间</th>
+        <th style="width: 12%;">领养人姓名</th>
+        <th>领养人帐号</th>
+        <th>宠物名</th>
+        <th>宠物种类</th>
+        <th>宠物年龄</th>
+        <th>宠物性别</th>
         <th style="width: 3.5em;"></th>
     </tr>
     </thead>
     <tbody>
-    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
-            <td><?php echo ($i); ?></td>
-            <td><?php echo ($vo["name"]); ?></td>
-            <td><?php echo ($vo["username"]); ?></td>
-            <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<?php echo ($i); ?>">查看详情</button>
-                <div class="modal fade" id="myModal<?php echo ($i); ?>">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                                <h4 class="modal-title"><?php echo ($vo["name"]); ?></h4>
-                            </div>
-                            <div class="modal-body">
-                                <p><b>地址:</b> <?php echo ($vo["address"]); ?></p>
-                                <p><b>电话:</b> <?php echo ($vo["contact"]); ?></p>
-                                <p><b>头像:</b> <img src="<?php echo ($vo["photo"]); ?>" width="150px" class="img-responsive" alt="头像"></p>
-                                <p><b>营业执照:</b> <img src="<?php echo ($vo["certification"]); ?>" width="200px" class="img-responsive" alt="执照"></p>
-                                <p><b>实名状态:</b> 未实名认证</p>
-                            </div>
-                            <div class="modal-footer">
-                                <a type="button" href="<?php echo U("Home/Index/agency_auth_success?id=$vo[id]");?>" class="btn btn-default">通过</a>
-                                <a type="button" href="<?php echo U("Home/Index/agency_auth_deny?id=$vo[id]");?>" class="btn btn-default">拒绝</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
+    <?php if(is_array($list_taken)): $k = 0; $__LIST__ = $list_taken;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vot): $mod = ($k % 2 );++$k;?><tr>
+            <td><?php echo ($k); ?></td>
+            <td><?php echo ($vot["leavetime"]); ?></td>
+            <td><?php echo ($vot["realname"]); ?></td>
+            <td><?php echo ($vot["username"]); ?></td>
+            <td><?php echo ($vot["petname"]); ?></td>
+            <td><?php echo ($vot["breed"]); ?></td>
+            <td><?php echo ($vot["age"]); ?></td>
+            <td><?php echo ($vot["sex"]); ?></td>
         </tr><?php endforeach; endif; else: echo "" ;endif; ?>
     </tbody>
 </table>

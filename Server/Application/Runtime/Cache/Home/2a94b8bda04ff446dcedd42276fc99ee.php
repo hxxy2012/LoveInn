@@ -108,11 +108,11 @@
                     <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                    <?php if($power == 0 ): ?><li><a href="<?php echo U('/Home/Index/order');?>">宠物</a></li>
+                    <?php if($power == 0 ): ?><li><a href="<?php echo U('/Home/Index/order');?>"></a></li>
                         <?php else: ?>
-                        <li><a href="<?php echo U('/Home/Index/users');?>">用户</a></li><?php endif; ?>
+                        <li><a href="<?php echo U('/Home/Index/a_myinfo');?>">我的资料</a></li><?php endif; ?>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="<?php echo U('/Home/Index/login');?>">退出</a></li>
+                    <li><a tabindex="-1" href="<?php echo U('/Home/Index/quitlogin');?>">退出</a></li>
                 </ul>
             </li>
         </ul>
@@ -139,8 +139,8 @@
             <li>
                 <ul class="room-menu nav nav-list collapse in">
                     <li><a href="<?php echo U('/Home/Index/categorys');?>"><span class="fa fa-caret-right"></span>活动分类</a></li>
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
+                    <li><a href="<?php echo U('/Home/Index/activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/applies');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".premium-menu"
@@ -172,6 +172,7 @@
                     <li><a href="<?php echo U('/Home/Index/addadmin');?>"><span class="fa fa-caret-right"></span>新增管理员</a></li>
                 </ul>
             </li>
+            <!--为组织者登录-->
             <?php else: ?>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".room-menu"
                                                                             class="nav-header"
@@ -188,8 +189,8 @@
                     class="fa fa-fw fa-briefcase"></i>个人管理<span class="label label-info">+3</span></a></li>
             <li>
                 <ul class="accounts-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/careworkers');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
-                    <li><a href="<?php echo U('/Home/Index/petsUser');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_auth');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_myinfo');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
                 </ul>
             </li><?php endif; ?>
 
@@ -202,29 +203,35 @@
     <div class="main-content">
 
         
-        ﻿<div class="row">
-    <div class="col-sm-6 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading no-collapse">最新用户<span class="label label-warning">10</span></div>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>用户名</th>
-                    <th>真实姓名</th>
-                    <th>电话</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php if(is_array($list)): $i = 0; $__LIST__ = array_slice($list,0,10,true);if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
-                        <td><?php echo ($vo["username"]); ?></td>
-                        <td><?php echo ($vo["realname"]); ?></td>
-                        <td><?php echo ($vo["phone"]); ?></td>
-                    </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-                </tbody>
-            </table>
+        ﻿<?php if($power == 0): ?><div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading no-collapse">最新用户<span class="label label-warning">10</span></div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>用户名</th>
+                        <th>真实姓名</th>
+                        <th>电话</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(is_array($list)): $i = 0; $__LIST__ = array_slice($list,0,10,true);if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
+                            <td><?php echo ($vo["username"]); ?></td>
+                            <td><?php echo ($vo["realname"]); ?></td>
+                            <td><?php echo ($vo["phone"]); ?></td>
+                        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+    <?php else: ?>
+    <h2 class="header-dividing">欢迎来到LoveInn管理系统</h2>
+    <?php if($ispass != 1): ?><div class="alert alert-danger">
+            <h4>您还未实名认证</h4>
+            <p>请及时前往个人中心, 完善个人资料</p>
+        </div><?php endif; endif; ?>
         
 
 

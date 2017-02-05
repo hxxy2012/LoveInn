@@ -40,7 +40,7 @@ CREATE TABLE `activity` (
   KEY `foreign key 2_idx` (`agencyid`),
   CONSTRAINT `foreign key 1` FOREIGN KEY (`categoryid`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `foreign key 2` FOREIGN KEY (`agencyid`) REFERENCES `agency` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +49,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
-INSERT INTO `activity` VALUES (1,'活动1','summary1','哈哈哈',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0),(2,'活动2','summary2','123',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0);
+INSERT INTO `activity` VALUES (1,'活动1','summary1','哈哈哈','2017-02-01','2017-02-04','123',1,'17854287060',1,10,0),(2,'活动2','summary2','123',NULL,NULL,NULL,2,NULL,3,NULL,0);
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,9 +95,9 @@ CREATE TABLE `agency` (
   `address` varchar(45) DEFAULT NULL,
   `contact` varchar(45) DEFAULT NULL,
   `certification` varchar(95) DEFAULT NULL,
-  `ispass` int(11) DEFAULT '0',
+  `ispass` int(11) DEFAULT '-1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +106,7 @@ CREATE TABLE `agency` (
 
 LOCK TABLES `agency` WRITE;
 /*!40000 ALTER TABLE `agency` DISABLE KEYS */;
-INSERT INTO `agency` VALUES (1,'111','bcbe3365e6ac95ea2c0343a2395834dd','hello',NULL,NULL,NULL,NULL,0);
+INSERT INTO `agency` VALUES (1,'111','bcbe3365e6ac95ea2c0343a2395834dd','公益机构1',NULL,NULL,NULL,NULL,-1),(3,'444','bcbe3365e6ac95ea2c0343a2395834dd','机构2',NULL,'3232','178542',NULL,0),(4,'333','bcbe3365e6ac95ea2c0343a2395834dd','world','/LoveInn/Public/Uploads/2017-02-05/58972709a71dc.png','4214214','777','/LoveInn/Public/Uploads/2017-02-05/58972d32ca734.jpg',1);
 /*!40000 ALTER TABLE `agency` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,14 +121,15 @@ CREATE TABLE `apply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) DEFAULT NULL,
   `activityid` int(11) DEFAULT NULL,
-  `time` datetime DEFAULT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `rate` int(11) DEFAULT NULL,
+  `isjoin` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `foreign key apply 1_idx` (`userid`),
   KEY `foreign key apply 2_idx` (`activityid`),
   CONSTRAINT `foreign key apply 1` FOREIGN KEY (`userid`) REFERENCES `volunteer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `foreign key apply 2` FOREIGN KEY (`activityid`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,6 +138,7 @@ CREATE TABLE `apply` (
 
 LOCK TABLES `apply` WRITE;
 /*!40000 ALTER TABLE `apply` DISABLE KEYS */;
+INSERT INTO `apply` VALUES (3,1,1,'2017-02-05 07:12:09',NULL,0),(4,1,2,'2017-02-05 07:12:37',NULL,0),(5,2,1,'2017-02-05 08:05:22',NULL,1),(6,3,2,'2017-02-05 08:05:22',NULL,1);
 /*!40000 ALTER TABLE `apply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +153,7 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,6 +162,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'关爱老人'),(2,'还好啦'),(6,'哈哈123123'),(9,'123333');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,9 +187,9 @@ CREATE TABLE `volunteer` (
   `info` varchar(95) DEFAULT NULL,
   `stucard` varchar(95) DEFAULT NULL,
   `money` int(11) DEFAULT '0',
-  `ispass` int(11) DEFAULT '0',
+  `ispass` int(11) DEFAULT '-1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +198,7 @@ CREATE TABLE `volunteer` (
 
 LOCK TABLES `volunteer` WRITE;
 /*!40000 ALTER TABLE `volunteer` DISABLE KEYS */;
-INSERT INTO `volunteer` VALUES (1,'222','bcbe3365e6ac95ea2c0343a2395834dd',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0);
+INSERT INTO `volunteer` VALUES (1,'222','bcbe3365e6ac95ea2c0343a2395834dd','/LoveInn/Public/Uploads/2017-02-04/5895f417cca84.jpg','你好',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1),(2,'333','bcbe3365e6ac95ea2c0343a2395834dd',NULL,'小胖子',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(3,'444','bcbe3365e6ac95ea2c0343a2395834dd',NULL,'志愿者3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0);
 /*!40000 ALTER TABLE `volunteer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -208,4 +211,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-03 19:48:44
+-- Dump completed on 2017-02-05 22:17:52

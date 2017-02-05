@@ -108,11 +108,11 @@
                     <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                    <?php if($power == 0 ): ?><li><a href="<?php echo U('/Home/Index/order');?>">宠物</a></li>
+                    <?php if($power == 0 ): ?><li><a href="<?php echo U('/Home/Index/order');?>"></a></li>
                         <?php else: ?>
-                        <li><a href="<?php echo U('/Home/Index/users');?>">用户</a></li><?php endif; ?>
+                        <li><a href="<?php echo U('/Home/Index/a_myinfo');?>">我的资料</a></li><?php endif; ?>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="<?php echo U('/Home/Index/login');?>">退出</a></li>
+                    <li><a tabindex="-1" href="<?php echo U('/Home/Index/quitlogin');?>">退出</a></li>
                 </ul>
             </li>
         </ul>
@@ -172,6 +172,7 @@
                     <li><a href="<?php echo U('/Home/Index/addadmin');?>"><span class="fa fa-caret-right"></span>新增管理员</a></li>
                 </ul>
             </li>
+            <!--为组织者登录-->
             <?php else: ?>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".room-menu"
                                                                             class="nav-header"
@@ -188,8 +189,8 @@
                     class="fa fa-fw fa-briefcase"></i>个人管理<span class="label label-info">+3</span></a></li>
             <li>
                 <ul class="accounts-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/careworkers');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
-                    <li><a href="<?php echo U('/Home/Index/petsUser');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_auth');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_myinfo');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
                 </ul>
             </li><?php endif; ?>
 

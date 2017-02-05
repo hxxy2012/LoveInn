@@ -203,54 +203,57 @@
     <div class="main-content">
 
         
-        <h2 class="header-dividing">待审核机构列表</h2>
-<table class="table" style="width: 800px;">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>机构名</th>
-        <th>用户名</th>
-        <th style="width: 3.5em;"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
-            <td><?php echo ($i); ?></td>
-            <td><?php echo ($vo["name"]); ?></td>
-            <td><?php echo ($vo["username"]); ?></td>
-            <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<?php echo ($i); ?>">查看详情</button>
-                <div class="modal fade" id="myModal<?php echo ($i); ?>">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                                <h4 class="modal-title"><?php echo ($vo["name"]); ?></h4>
-                            </div>
-                            <div class="modal-body">
-                                <p><b>地址:</b> <?php echo ($vo["address"]); ?></p>
-                                <p><b>电话:</b> <?php echo ($vo["contact"]); ?></p>
-                                <p><b>头像:</b> <img src="<?php echo ($vo["photo"]); ?>" width="150px" class="img-responsive" alt="头像"></p>
-                                <p><b>营业执照:</b> <img src="<?php echo ($vo["certification"]); ?>" width="200px" class="img-responsive" alt="执照"></p>
-                                <p><b>实名状态:</b> 未实名认证</p>
-                            </div>
-                            <div class="modal-footer">
-                                <a type="button" href="<?php echo U("Home/Index/agency_auth_success?id=$vo[id]");?>" class="btn btn-default">通过</a>
-                                <a type="button" href="<?php echo U("Home/Index/agency_auth_deny?id=$vo[id]");?>" class="btn btn-default">拒绝</a>
-                            </div>
-                        </div>
+        <div class="row">
+    <div class="col-md-4">
+        <br>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active in" id="home">
+                <form id="tab" method='post' onsubmit="return checkUser();">
+                    <div class="form-group">
+                        <label>昵称</label>
+                        <input type="text" name="name" id="username" value="<?php echo ($list[0]['adminname']); ?>" class="form-control">
                     </div>
-                </div>
-            </td>
-        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-    </tbody>
-</table>
+                    <div class="form-group">
+                        <label>帐号</label>
+                        <input type="text" name="account" id="account" value="<?php echo ($list[0]['adminaccount']); ?>"
+                               class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
+            </div>
 
-<script type="text/javascript">
-    function del() {
-        if (!confirm("确认要删除？")) {
-            window.event.returnValue = false;
+            <div class="btn-toolbar list-toolbar">
+                <button class="btn btn-primary" name="save" id="save"><i class="fa fa-save"></i> 保存</button>
+                <a class="btn btn-primary" href="javascript:history.go(-1);">返回</a>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function checkUser() {
+        var name = $("#username").val();
+        var account = $("#account").val();
+        var password = $("#password").val();
+        if (name == "") {
+            alert("昵称不能为空");
+            return false;
         }
+        if (account == "") {
+            alert("帐号不能为空");
+            return false;
+        }
+        if (password.trim() == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        if (password.length <= 2) {
+            alert("密码不能少于等于2位");
+            return false;
+        }
+        return true;
     }
 </script>
         

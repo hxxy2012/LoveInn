@@ -24,11 +24,11 @@
                                 <h4 class="modal-title">{$vo.name}</h4>
                             </div>
                             <div class="modal-body">
-                                <p>地址: {$vo.address}</p>
-                                <p>电话: {$vo.contact}</p>
-                                <p>机构图片: </p>
-                                <p>营业执照: </p>
-                                <p>实名状态: 未实名认证</p>
+                                <p><b>地址:</b> {$vo.address}</p>
+                                <p><b>电话:</b> {$vo.contact}</p>
+                                <p><b>头像:</b> <img src="{$vo.photo}" width="150px" class="img-responsive" alt="头像"></p>
+                                <p><b>营业执照:</b> <img src="{$vo.certification}" width="200px" class="img-responsive" alt="执照"></p>
+                                <p><b>实名状态:</b> 未实名认证</p>
                             </div>
                             <div class="modal-footer">
                                 <a type="button" href="{:U("Home/Index/agency_auth_success?id=$vo[id]")}" class="btn btn-default">通过</a>

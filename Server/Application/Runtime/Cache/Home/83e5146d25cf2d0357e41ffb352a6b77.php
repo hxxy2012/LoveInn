@@ -203,53 +203,111 @@
     <div class="main-content">
 
         
-        <h2 class="header-dividing">待审核机构列表</h2>
-<table class="table" style="width: 800px;">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>机构名</th>
-        <th>用户名</th>
-        <th style="width: 3.5em;"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
-            <td><?php echo ($i); ?></td>
-            <td><?php echo ($vo["name"]); ?></td>
-            <td><?php echo ($vo["username"]); ?></td>
-            <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<?php echo ($i); ?>">查看详情</button>
-                <div class="modal fade" id="myModal<?php echo ($i); ?>">
+        <style>
+    .main {
+        width: 30%;
+    }
+    .input-group {
+        margin-bottom: 20px;
+    }
+</style>
+<h2 class="header-dividing">我的资料</h2>
+<?php if($ispass == -1): ?><div class="alert alert-danger">
+        <h4>您还未实名认证</h4>
+        <p>请及时完善个人资料</p>
+    </div><?php endif; ?>
+<?php if($ispass == 0): ?><div class="alert alert-warning">
+        <h4>您已提交材料</h4>
+        <p>请等待审核</p>
+    </div><?php endif; ?>
+<?php if($ispass == 1): ?><div class="alert alert-success">
+        <h4>恭喜</h4>
+        <p>您已实名认证成功</p>
+    </div><?php endif; ?>
+<div class="main">
+    <form method="post" enctype="multipart/form-data" onsubmit="return check();">
+        <div>
+            <?php if($data["hasphoto"] == 0): ?><p>暂未上传头像</p>
+                <?php else: ?>
+                <img src="<?php echo ($data["photo"]); ?>" alt="个人头像" class="img-responsive" style="width: 150px;"><?php endif; ?>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">个人头像</span>
+            <input type="file" name="photo" id="photo" class="form-control">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">用户帐号</span>
+            <input type="text" class="form-control" disabled value="<?php echo ($data["username"]); ?>">
+            <span class="input-group-addon"><i class="icon icon-star"></i></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">机构名称</span>
+            <input type="text" class="form-control" name="name" id="name" placeholder="机构名称" value="<?php echo ($data["name"]); ?>">
+            <span class="input-group-addon"><i class="icon icon-star"></i></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">机构地址</span>
+            <input type="text" class="form-control" name="address" id="address" placeholder="机构地址" value="<?php echo ($data["address"]); ?>">
+            <span class="input-group-addon"><i class="icon icon-star"></i></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">联系方式</span>
+            <input type="text" class="form-control" name="contact" id="contact" placeholder="联系方式" value="<?php echo ($data["contact"]); ?>">
+            <span class="input-group-addon"><i class="icon icon-star"></i></span>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">资质证明</span>
+            <input type="file" class="form-control" name="certification" id="certification">
+            <span class="input-group-addon"><i class="icon icon-star"></i></span>
+        </div>
+        <div>
+            <?php if($data["hascertification"] == 0): ?><p>暂未上传证明材料</p>
+                <?php else: ?>
+                <button type="button" class="btn" data-toggle="modal" data-target="#myModal">查看资质文件</button>
+                <div class="modal fade" id="myModal">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                                <h4 class="modal-title"><?php echo ($vo["name"]); ?></h4>
+                                <h4 class="modal-title">资质文件</h4>
                             </div>
                             <div class="modal-body">
-                                <p><b>地址:</b> <?php echo ($vo["address"]); ?></p>
-                                <p><b>电话:</b> <?php echo ($vo["contact"]); ?></p>
-                                <p><b>头像:</b> <img src="<?php echo ($vo["photo"]); ?>" width="150px" class="img-responsive" alt="头像"></p>
-                                <p><b>营业执照:</b> <img src="<?php echo ($vo["certification"]); ?>" width="200px" class="img-responsive" alt="执照"></p>
-                                <p><b>实名状态:</b> 未实名认证</p>
-                            </div>
-                            <div class="modal-footer">
-                                <a type="button" href="<?php echo U("Home/Index/agency_auth_success?id=$vo[id]");?>" class="btn btn-default">通过</a>
-                                <a type="button" href="<?php echo U("Home/Index/agency_auth_deny?id=$vo[id]");?>" class="btn btn-default">拒绝</a>
+                                <img src="<?php echo ($data["certification"]); ?>" alt="资质材料" style="width: 220px;">
                             </div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-    </tbody>
-</table>
+                </div><?php endif; ?>
+        </div>
+        <input type="text" id="hascertification" value="<?php echo ($data["hascertification"]); ?>" hidden>
+        <br>
+        <button class="btn btn-block btn-primary" style="line-height: 2.2;" type="submit">修改</button>
+    </form>
+</div>
 
-<script type="text/javascript">
-    function del() {
-        if (!confirm("确认要删除？")) {
-            window.event.returnValue = false;
+<script>
+    function check() {
+        var name = $('#name').val();
+        var address = $("#address").val();
+        var contact = $('#contact').val();
+        var hascertification = $('#hascertification').val();
+        if(name == "") {
+            alert('机构名称不可以为空');
+            return false;
+        }
+        if(address == "") {
+            alert('机构地址不可以为空');
+            return false;
+        }
+        if(contact == "") {
+            alert('联系方式不可以为空');
+            return false;
+        }
+        if(hascertification == 0) {
+            var certification = $('#certification').val();
+            if(certification == "") {
+                alert('请上传资质证明文件');
+                return false;
+            }
         }
     }
 </script>
