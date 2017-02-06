@@ -9,14 +9,14 @@ namespace Home\Model;
 use Think\Model\ViewModel;
 
 /*活动模型
-    模型列: id, name, summary, info, begintime, endtime, location, contact, capacity, isend, category_name, agency_name
+    模型列: id, name, summary, info, photo, begintime, endtime, location, contact, capacity, isend, category_name, agency_name, agency_username
 */
 class ActivityViewModel extends ViewModel {
     public $viewFields = array(
-        'activity'=>array('id', 'name', 'summary', 'info', 'begintime', 'endtime',
+        'activity'=>array('id', 'name', 'summary', 'info', 'photo', 'begintime', 'endtime',
             'location', 'contact', 'capacity', 'isend'),
         'category'=>array('name'=>'category_name', '_on'=>'activity.categoryid=category.id'),
-        'agency'=>array('name'=>'agency_name', '_on'=>'activity.agencyid=agency.id')
+        'agency'=>array('name'=>'agency_name', 'username'=>'agency_username', '_on'=>'activity.agencyid=agency.id')
     );
 
 }

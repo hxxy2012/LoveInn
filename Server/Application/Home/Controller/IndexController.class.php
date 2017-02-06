@@ -393,6 +393,44 @@ class IndexController extends Controller {
         }
     }
 
+    // 修改密码
+    public function a_password() {
+        $this->isAgencyLogin();
+        $this->display();
+        if(IS_POST) {
+            $agency = M('agency');
+            $old_agency = $agency->where('username="%s"', $_SESSION['account'])->find();
+            $old_password = md5($_POST['old_password']);
+            if($old_password != $old_agency['password']) {
+                echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                echo "<script>alert('原密码输入错误, 请重试');</script>";
+                return;
+            } else {
+                $new_password = md5($_POST['new_password']);
+                $renew_password = md5($_POST['renew_password']);
+                if($new_password != $renew_password) {
+                    echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                    echo "<script>alert('两次输入的密码不一致, 请重试');</script>";
+                    return;
+                } else {
+                    $new_agency = M('agency');
+                    $new_agency->password = $new_password;
+                    $result = $new_agency->where('id=%d', $old_agency['id'])->save();
+                    if($result !== false) {
+                        echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                        echo "<script>alert('修改成功');</script>";
+                        $this->redirect('/Home/Index/a_password');
+                    } else {
+                        echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                        echo "<script>alert('修改失败');</script>";
+                        $this->redirect('/Home/Index/a_password');
+                    }
+                }
+            }
+        }
+    }
+
+    // 我的资料/实名认证
     public function a_myinfo() {
         $this->isAgencyLogin();
         $agency = M('agency');
@@ -439,6 +477,125 @@ class IndexController extends Controller {
 //                dump($result);
                 $this->redirect("/Home/Index/a_myinfo");
             }
+        }
+    }
+
+    // 活动列表
+    public function a_activities() {
+        $this->isAgencyLogin();
+        $account = $_SESSION['account'];
+        $activities = D('ActivityView');
+        $data = $activities->where('username="%s"', $account)->order('isend,category_name')->select();
+        $this->assign('list', $data);
+        $this->display();
+    }
+
+    // 删除活动
+    public function a_delactivity() {
+        $this->isAgencyLogin();
+        $id = I('request.id');
+        $agency_id = M('agency')->where('username="%s"', $_SESSION['account'])->getField('id');
+        $activity = M('activity');
+        $result = $activity->where('id=%d and agencyid=%d', $id, $agency_id)->delete();
+        if($result) {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('删除成功');</script>";
+            $this->redirect("/Home/Index/a_activities");
+        } else {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('删除失败');</script>";
+            $this->redirect("/Home/Index/a_activities");
+        }
+    }
+
+    // 添加/编辑活动
+    public function a_activity() {
+        $this->isAgencyLogin();
+        $ispass = $_SESSION['ispass'];
+        if($ispass != 1) {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('您还未实名认证, 没有该权限');history.go(-1);</script>";
+            return;
+        }
+        $id = I('request.id');
+        $list = M('category')->select();
+        if($id) { // 修改活动
+            $data = M('activity')->where('id=%d', $id)->find();
+            foreach ($list as &$item) {
+                if($item['id'] == $data['categoryid']) {
+                    $item['selected'] = 'selected="true"';
+                }
+            }
+            $data['hasphoto'] = 1;
+            $this->assign('list', $list);
+            $this->assign('data', $data);
+            $this->display();
+            if(IS_POST) {
+                $activity = M('activity');
+                $activity->name = $_POST['name'];
+                $activity->begintime = $_POST['begintime'];
+                $activity->endtime = $_POST['endtime'];
+                $activity->location = $_POST['location'];
+                $activity->contact = $_POST['contact'];
+                $activity->capacity = $_POST['capacity'];
+                $activity->categoryid = $_POST['category'];
+                $activity->summary = $_POST['summary'];
+                $activity->info = $_POST['info'];
+                if(!$_FILES['photo']['name'] == "") {
+                    $uploadPhotoResult = $this->uploadPhoto('photo');
+                    if (!$uploadPhotoResult == 0) {
+                        $activity->photo = $uploadPhotoResult;
+                    }
+                }
+                $agency_id = M('agency')->where('username="%s"', $_SESSION['account'])->getField('id');
+                $activity->agencyid = $agency_id;
+                $result = $activity->where('id=%d', $id)->save();
+                if($result) {
+                    echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                    echo "<script>alert('修改成功');</script>";
+                    $this->redirect("/Home/Index/a_activities");
+                } else {
+                    echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                    echo "<script>alert('修改失败');</script>";
+                    $this->redirect("/Home/Index/a_activities");
+                }
+            }
+
+        } else { // 新增活动
+            $data['hasphoto'] = 0;
+            $this->assign('list', $list);
+            $this->assign('data', $data);
+            $this->display();
+
+            if(IS_POST) {
+                $activity = M('activity');
+                $activity->name = $_POST['name'];
+                $activity->begintime = $_POST['begintime'];
+                $activity->endtime = $_POST['endtime'];
+                $activity->location = $_POST['location'];
+                $activity->contact = $_POST['contact'];
+                $activity->capacity = $_POST['capacity'];
+                $activity->categoryid = $_POST['category'];
+                $activity->summary = $_POST['summary'];
+                $activity->info = $_POST['info'];
+                $uploadPhotoResult = $this->uploadPhoto('photo');
+                if(!$uploadPhotoResult == 0) {
+                    $activity->photo = $uploadPhotoResult;
+                }
+                $agency_id = M('agency')->where('username="%s"', $_SESSION['account'])->getField('id');
+                $activity->agencyid = $agency_id;
+                $result = $activity->add();
+                if($result) {
+                    echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                    echo "<script>alert('添加成功');</script>";
+                    $this->redirect("/Home/Index/a_activities");
+                } else {
+                    echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                    echo "<script>alert('添加失败');</script>";
+                    $this->redirect("/Home/Index/a_activities");
+                }
+            }
+
         }
     }
 

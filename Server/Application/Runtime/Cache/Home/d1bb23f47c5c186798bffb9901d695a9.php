@@ -19,8 +19,6 @@
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
 
-
-
 </head>
 <body class=" theme-blue">
 
@@ -180,7 +178,7 @@
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
@@ -203,152 +201,61 @@
     <div class="main-content">
 
         
-        <h2 class="header-dividing">活动种类列表</h2>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_add_category">添加新种类</button>
-<div class="modal fade" id="myModal_add_category">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title">添加新活动</h4>
-            </div>
-            <form method="post" onsubmit="return checkInput();">
-                <div class="modal-body">
-                    <div class="input-group">
-                        <span class="input-group-addon">活动名</span>
-                        <input type="text" class="form-control" name="category_name" id="add_category_input" placeholder="活动名">
-                    </div>
+        <div class="row">
+    <div class="col-md-4">
+        <br>
+        <div id="myTabContent" class="tab-content">
+            <form method="post" onsubmit="return checkUser();">
+                <div class="input-group">
+                    <span class="input-group-addon">输入原密码</span>
+                    <input type="password" name="old_password" id="old_password" class="form-control">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" name="add" class="btn btn-default">添加</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">输入新密码</span>
+                    <input type="password" name="new_password" id="new_password" class="form-control">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
                 </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">确认新密码</span>
+                    <input type="password" name="renew_password" id="renew_password" class="form-control">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-block btn-primary">修改</button>
             </form>
         </div>
     </div>
 </div>
-<table class="table" style="width: 800px;">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>活动名</th>
-        <th style="width: 3.5em;"></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
-            <td><?php echo ($i); ?></td>
-            <td id="td-name-<?php echo ($vo["id"]); ?>"><?php echo ($vo["name"]); ?></td>
-            <td>
-                <button type="button" class="btn btn-primary modal-info-btn" name="<?php echo ($vo["id"]); ?>" data-toggle="modal" data-target="#myModal_change_cagegory">编辑</button>
-            </td>
-            <td>
-                <a type="button" href="<?php echo U("Home/Index/delcategory?id=$vo[id]");?>" class="btn btn-primary" onclick="del();">删除</a>
-            </td>
-        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-    <div class="modal fade" id="myModal_change_cagegory">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                    <h4 class="modal-title">修改活动名</h4>
-                </div>
-                <form method="post">
-                    <div class="modal-body">
-                        <div class="input-group">
-                            <span class="input-group-addon">活动名</span>
-                            <input type="text" class="form-control" name="category_change_name" id="category_name_input" placeholder="活动名">
-                        </div>
-                        <div class="alert alert-success alert-info">修改成功</div>
-                        <div class="alert alert-danger alert-info">活动名重复</div>
-                        <div class="alert alert-warning alert-info">修改失败</div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="change" class="btn btn-default">修改</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </tbody>
-</table>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-       var infoBtn = $(".modal-info-btn");
-        var id;
-        var tdid;
-        $('.alert-info').hide();
-
-        // 遍历编辑按钮
-        $(infoBtn).each(function(index, el) {
-            $(this).on('click', function() {
-                $('.alert-info').hide();
-                // 获取该行信息的id
-                id = $(this).attr('name');
-                // 显示name的td的id
-                tdid = "#td-name-" + id;
-                var name = $(tdid).text();
-                console.log(name);
-                $("#category_name_input").val(name);
-
-            })
-        });
-
-        $('#change').on('click', function () {
-            $('.alert-info').hide();
-            var new_name = $('#category_name_input').val().trim();
-            if(new_name == "") {
-                alert('不可以为空哦');
-                return;
-            }
-            console.log(new_name);
-            var data = {
-                id: id,
-                category_change_name: new_name
-            };
-            $.ajax({
-                url: '<?php echo U("/Home/Index/change_category");?>',
-                method: 'POST',
-                data: data
-            }).done(function(dataget) {
-                if(dataget == 1) { // 成功修改
-                    $("#category_name_input").val(new_name);
-                    $(tdid).text(new_name);
-                    $(".alert-success").show();
-                } else if(dataget == 0) { // 名字重复
-                    $(".alert-danger").show();
-                } else { // 修改失败
-                    $(".alert-warning").show();
-                }
-//                console.log('change succeed');
-            }).fail(function() { // 未响应
-                console.log('change error');
-            });
-        });
-    });
-
-</script>
-<script type="text/javascript">
-    function del() {
-        if (!confirm("确认要删除？")) {
-            window.event.returnValue = false;
-        }
-    }
-
-    // 添加种类时不可以为空
-    function checkInput() {
-        var a_name = $('#add_category_input').val().trim();
-        if(a_name == "") {
-            alert('不可以为空');
+<script>
+    function checkUser() {
+        var old_password = $("#old_password").val();
+        var new_password = $("#new_password").val();
+        var renew_password = $("#renew_password").val();
+        if (old_password == "") {
+            alert("原密码不能为空");
             return false;
-        } else {
-            return true;
         }
+        if (new_password == "") {
+            alert("新密码不能为空");
+            return false;
+        }
+        if (renew_password == "") {
+            alert("确认密码不能为空");
+            return false;
+        }
+        if (new_password.length <= 2) {
+            alert("密码不能少于等于2位");
+            return false;
+        }
+        if (new_password != renew_password) {
+            alert('两次输入的密码不一致');
+            return false;
+        }
+        return true;
     }
-
 </script>
         
 

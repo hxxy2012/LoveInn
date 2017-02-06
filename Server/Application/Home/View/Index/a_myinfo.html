@@ -5,22 +5,28 @@
     .input-group {
         margin-bottom: 20px;
     }
+    .alert {
+        width: 50%;
+    }
 </style>
 <h2 class="header-dividing">我的资料</h2>
 <if condition="$ispass eq -1">
-    <div class="alert alert-danger">
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4>您还未实名认证</h4>
         <p>请及时完善个人资料</p>
     </div>
 </if>
 <if condition="$ispass eq 0">
-    <div class="alert alert-warning">
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4>您已提交材料</h4>
         <p>请等待审核</p>
     </div>
 </if>
 <if condition="$ispass eq 1">
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4>恭喜</h4>
         <p>您已实名认证成功</p>
     </div>

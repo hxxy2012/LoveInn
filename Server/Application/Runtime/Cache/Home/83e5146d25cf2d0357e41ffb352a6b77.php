@@ -19,8 +19,6 @@
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
 
-
-
 </head>
 <body class=" theme-blue">
 
@@ -180,7 +178,7 @@
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
@@ -189,7 +187,7 @@
                     class="fa fa-fw fa-briefcase"></i>个人管理<span class="label label-info">+3</span></a></li>
             <li>
                 <ul class="accounts-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/a_auth');?>"><span class="fa fa-caret-right"></span>实名认证</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_password');?>"><span class="fa fa-caret-right"></span>修改密码</a></li>
                     <li><a href="<?php echo U('/Home/Index/a_myinfo');?>"><span class="fa fa-caret-right"></span>我的资料</a></li>
                 </ul>
             </li><?php endif; ?>
@@ -210,17 +208,23 @@
     .input-group {
         margin-bottom: 20px;
     }
+    .alert {
+        width: 50%;
+    }
 </style>
 <h2 class="header-dividing">我的资料</h2>
-<?php if($ispass == -1): ?><div class="alert alert-danger">
+<?php if($ispass == -1): ?><div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4>您还未实名认证</h4>
         <p>请及时完善个人资料</p>
     </div><?php endif; ?>
-<?php if($ispass == 0): ?><div class="alert alert-warning">
+<?php if($ispass == 0): ?><div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4>您已提交材料</h4>
         <p>请等待审核</p>
     </div><?php endif; ?>
-<?php if($ispass == 1): ?><div class="alert alert-success">
+<?php if($ispass == 1): ?><div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4>恭喜</h4>
         <p>您已实名认证成功</p>
     </div><?php endif; ?>

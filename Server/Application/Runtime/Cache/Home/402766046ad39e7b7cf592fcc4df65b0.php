@@ -19,8 +19,6 @@
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
 
-
-
 </head>
 <body class=" theme-blue">
 
@@ -180,7 +178,7 @@
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
@@ -203,152 +201,151 @@
     <div class="main-content">
 
         
-        <h2 class="header-dividing">活动种类列表</h2>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_add_category">添加新种类</button>
-<div class="modal fade" id="myModal_add_category">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title">添加新活动</h4>
-            </div>
-            <form method="post" onsubmit="return checkInput();">
-                <div class="modal-body">
-                    <div class="input-group">
-                        <span class="input-group-addon">活动名</span>
-                        <input type="text" class="form-control" name="category_name" id="add_category_input" placeholder="活动名">
-                    </div>
+        <link rel="stylesheet" href="/LoveInn/Public/datepicker/datetimepicker.min.css">
+<style>
+    .form-date {
+        cursor: pointer !important;
+    }
+</style>
+<h2 class="header-dividing">我的活动</h2>
+<div class="row">
+    <div class="col-md-4">
+        <br>
+        <div id="myTabContent" class="tab-content">
+            <form method="post" enctype="multipart/form-data" onsubmit="return checkUser();">
+                <div class="input-group">
+                    <span class="input-group-addon">活动名称</span>
+                    <input type="text" name="name" id="name" class="form-control" value="<?php echo ($data["name"]); ?>">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" name="add" class="btn btn-default">添加</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">开始时间</span>
+                    <input type="text" class="form-control form-date" value="<?php echo ($data["begintime"]); ?>" name="begintime" id="begintime" placeholder="请点击选择一个日期" readonly>
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
                 </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">结束时间</span>
+                    <input type="text" class="form-control form-date" value="<?php echo ($data["endtime"]); ?>" name="endtime" id="endtime" placeholder="请点击选择一个日期" readonly>
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">活动地址</span>
+                    <input type="text" name="location" id="location" class="form-control" value="<?php echo ($data["location"]); ?>">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">联系方式</span>
+                    <input type="text" name="contact" id="contact" class="form-control" value="<?php echo ($data["contact"]); ?>">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">招募人数</span>
+                    <input type="text" name="capacity" id="capacity" class="form-control" value="<?php echo ($data["capacity"]); ?>" placeholder="请输入大于等于0的数字"  >
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">活动种类</span>
+                    <select class="form-control" name="category">
+                        <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["id"]); ?>" <?php echo ($vo["selected"]); ?>><?php echo ($vo["name"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
+                    </select>
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">活动简介</span>
+                    <input type="text" name="summary" id="summary" class="form-control" value="<?php echo ($data["summary"]); ?>">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">活动详情</span>
+                    <textarea class="form-control" rows="4" name="info" id="info" placeholder="可以输入多行文本"><?php echo ($data["info"]); ?></textarea>
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">活动图片</span>
+                    <input type="file" class="form-control" name="photo" id="photo">
+                    <span class="input-group-addon"><i class="icon icon-star"></i></span>
+                </div>
+                <div>
+                    <?php if($data["hasphoto"] == 0): ?><p>暂未上传活动图片</p>
+                        <?php else: ?>
+                        <button type="button" class="btn" data-toggle="modal" data-target="#myModal">查看活动图片</button>
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                                        <h4 class="modal-title">活动图片</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="<?php echo ($data["photo"]); ?>" alt="活动图片" style="width: 220px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div><?php endif; ?>
+                </div>
+                <br>
+                <input type="text" hidden value="<?php echo ($data["hasphoto"]); ?>" id="hasphoto">
+                <button type="submit" class="btn btn-block btn-primary">提交</button>
             </form>
         </div>
     </div>
 </div>
-<table class="table" style="width: 800px;">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>活动名</th>
-        <th style="width: 3.5em;"></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
-            <td><?php echo ($i); ?></td>
-            <td id="td-name-<?php echo ($vo["id"]); ?>"><?php echo ($vo["name"]); ?></td>
-            <td>
-                <button type="button" class="btn btn-primary modal-info-btn" name="<?php echo ($vo["id"]); ?>" data-toggle="modal" data-target="#myModal_change_cagegory">编辑</button>
-            </td>
-            <td>
-                <a type="button" href="<?php echo U("Home/Index/delcategory?id=$vo[id]");?>" class="btn btn-primary" onclick="del();">删除</a>
-            </td>
-        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-    <div class="modal fade" id="myModal_change_cagegory">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                    <h4 class="modal-title">修改活动名</h4>
-                </div>
-                <form method="post">
-                    <div class="modal-body">
-                        <div class="input-group">
-                            <span class="input-group-addon">活动名</span>
-                            <input type="text" class="form-control" name="category_change_name" id="category_name_input" placeholder="活动名">
-                        </div>
-                        <div class="alert alert-success alert-info">修改成功</div>
-                        <div class="alert alert-danger alert-info">活动名重复</div>
-                        <div class="alert alert-warning alert-info">修改失败</div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="change" class="btn btn-default">修改</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </tbody>
-</table>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-       var infoBtn = $(".modal-info-btn");
-        var id;
-        var tdid;
-        $('.alert-info').hide();
-
-        // 遍历编辑按钮
-        $(infoBtn).each(function(index, el) {
-            $(this).on('click', function() {
-                $('.alert-info').hide();
-                // 获取该行信息的id
-                id = $(this).attr('name');
-                // 显示name的td的id
-                tdid = "#td-name-" + id;
-                var name = $(tdid).text();
-                console.log(name);
-                $("#category_name_input").val(name);
-
-            })
-        });
-
-        $('#change').on('click', function () {
-            $('.alert-info').hide();
-            var new_name = $('#category_name_input').val().trim();
-            if(new_name == "") {
-                alert('不可以为空哦');
-                return;
-            }
-            console.log(new_name);
-            var data = {
-                id: id,
-                category_change_name: new_name
-            };
-            $.ajax({
-                url: '<?php echo U("/Home/Index/change_category");?>',
-                method: 'POST',
-                data: data
-            }).done(function(dataget) {
-                if(dataget == 1) { // 成功修改
-                    $("#category_name_input").val(new_name);
-                    $(tdid).text(new_name);
-                    $(".alert-success").show();
-                } else if(dataget == 0) { // 名字重复
-                    $(".alert-danger").show();
-                } else { // 修改失败
-                    $(".alert-warning").show();
-                }
-//                console.log('change succeed');
-            }).fail(function() { // 未响应
-                console.log('change error');
-            });
-        });
-    });
-
-</script>
-<script type="text/javascript">
-    function del() {
-        if (!confirm("确认要删除？")) {
-            window.event.returnValue = false;
-        }
-    }
-
-    // 添加种类时不可以为空
-    function checkInput() {
-        var a_name = $('#add_category_input').val().trim();
-        if(a_name == "") {
-            alert('不可以为空');
+<script src="/LoveInn/Public/datepicker/datetimepicker.min.js"></script>
+<script>
+    function checkUser() {
+        var name = $("#name").val();
+        var begintime = $("#begintime").val();
+        var endtime = $("#endtime").val();
+        var location = $('#location').val();
+        var contact = $('#contact').val();
+        var capacity = $('#capacity').val();
+        var summary = $('#summary').val();
+        var info = $('#info').val();
+        var photo = $("#photo").val();
+        var hasphoto = $('#hasphoto').val();
+        if(name == "" || begintime == "" || endtime == "" || location == "" || contact == "" ||
+            capacity == "" || summary == "" || info == "") {
+            alert('请填写完整');
             return false;
-        } else {
-            return true;
         }
+        if(hasphoto == 0 && photo == "") {
+            alert('请上传活动图片');
+            return false;
+        }
+        if(begintime > endtime) {
+            alert('结束时间要在开始时间之后哦');
+            return false;
+        }
+        var reg = /^\d+$/;
+        if(!reg.test(capacity)) {
+            alert('招募人数请输入大于等于0的数字');
+            return false;
+        }
+        // 防止输入000, 001这种情况
+        $('#capacity').val(parseInt(capacity));
+        return true;
     }
-
+    $(".form-date").datetimepicker({
+        language:  "zh-CN",
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format: "yyyy-mm-dd"
+    });
 </script>
         
 
