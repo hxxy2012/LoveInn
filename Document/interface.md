@@ -10,6 +10,13 @@
 >
 >       注意: 前缀最后没有 `/`
 
+### 迭代记录
+
+| 版本   | 时间         | 说明             | 修改者     |
+| ---- | ---------- | -------------- | ------- |
+| v1.0 | 2017.02.02 | 初始化            | waydrow |
+| v1.1 | 2017.02.07 | 活动信息中添加photo字段 | waydrow |
+
 ## 1. 登录
 
 ### 1.1 interface
@@ -67,14 +74,16 @@ example:
 ```json
 [
   {
-    "id": "1",
-    "name": "活动1",
-    "summary": "summary1"
+    "id": "6",
+    "name": "这是活动1",
+    "summary": "没有活动简介",
+    "photo": "/LoveInn/Public/Uploads/2017-02-07/5898a0249cb29.jpg"
   },
   {
-    "id": "2",
-    "name": "活动2",
-    "summary": "summary2"
+    "id": "7",
+    "name": "这是活动2",
+    "summary": "这是简介2",
+    "photo": "/LoveInn/Public/Uploads/2017-02-07/5898a0840c81a.jpg"
   }
 ]
 ```
@@ -99,17 +108,18 @@ example
 
 ```json
 {
-  "id": "1",
-  "name": "活动1",
-  "summary": "summary1",
-  "info": "哈哈哈",
-  "begintime": null,
-  "endtime": null,
-  "location": null,
-  "categoryid": null,
-  "contact": null,
-  "agencyid": null,
-  "capacity": null,
+  "id": "6",
+  "name": "这是活动1",
+  "summary": "没有活动简介",
+  "info": "这是info",
+  "photo": "/LoveInn/Public/Uploads/2017-02-07/5898a0249cb29.jpg",
+  "begintime": "2017-02-07",
+  "endtime": "2017-02-08",
+  "location": "中国海洋大学",
+  "categoryid": "1",
+  "contact": "124124",
+  "agencyid": "4",
+  "capacity": "12",
   "isend": "0"
 }
 ```
