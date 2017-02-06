@@ -9,6 +9,7 @@
 | v1.2 | 2016.02.03 | 添加admin表                           | waydrow |
 | v1.3 | 2016.02.05 | 在apply表中添加isjoin字段                 | waydrow |
 | v1.4 | 2016.02.05 | 修改volunteer和agency表, ispass字段默认为-1 | waydrow |
+| v1.5 | 2016.02.06 | activity表中添加photo字段                | waydrow |
 
 ### volunteer (志愿者表)
 
@@ -37,6 +38,7 @@
 | name       | varchar | 活动名称      |        |
 | summary    | varchar | 简介        |        |
 | info       | varchar | 详细介绍      |        |
+| photo      | varchar | 活动图片      |        |
 | begintime  | date    | 活动开始时间    |        |
 | endtime    | date    | 活动结束时间    |        |
 | location   | varchar | 活动地址      |        |
