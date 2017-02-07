@@ -16,7 +16,7 @@ use Think\Model\ViewModel;
 class ApplyViewModel extends ViewModel {
     public $viewFields = array(
         'apply'=>array('id', 'userid'=>'user_id', 'activityid'=>'activity_id', 'time', 'rate', 'isjoin'),
-        'volunteer'=>array('username'=>'user_name', 'realname'=>'user_realname', '_on'=>'apply.userid=volunteer.id'),
+        'volunteer'=>array('username'=>'user_name', 'realname'=>'user_realname', 'money'=>'user_money', '_on'=>'apply.userid=volunteer.id'),
         'activity'=>array('name'=>'activity_name', '_on'=>'apply.activityid=activity.id')
     );
 }

@@ -203,7 +203,7 @@
         
         <link rel="stylesheet" href="/LoveInn/Public/datepicker/datetimepicker.min.css">
 <style>
-    .form-date {
+    .form-datetime {
         cursor: pointer !important;
     }
 </style>
@@ -221,13 +221,13 @@
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon">开始时间</span>
-                    <input type="text" class="form-control form-date" value="<?php echo ($data["begintime"]); ?>" name="begintime" id="begintime" placeholder="请点击选择一个日期" readonly>
+                    <input type="text" class="form-control form-datetime" value="<?php echo ($data["begintime"]); ?>" name="begintime" id="begintime" placeholder="请点击选择一个时间" readonly>
                     <span class="input-group-addon"><i class="icon icon-star"></i></span>
                 </div>
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon">结束时间</span>
-                    <input type="text" class="form-control form-date" value="<?php echo ($data["endtime"]); ?>" name="endtime" id="endtime" placeholder="请点击选择一个日期" readonly>
+                    <input type="text" class="form-control form-datetime" value="<?php echo ($data["endtime"]); ?>" name="endtime" id="endtime" placeholder="请点击选择一个时间" readonly>
                     <span class="input-group-addon"><i class="icon icon-star"></i></span>
                 </div>
                 <br>
@@ -245,7 +245,7 @@
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon">招募人数</span>
-                    <input type="text" name="capacity" id="capacity" class="form-control" value="<?php echo ($data["capacity"]); ?>" placeholder="请输入大于等于0的数字"  >
+                    <input type="number" name="capacity" id="capacity" class="form-control" value="<?php echo ($data["capacity"]); ?>" placeholder="请输入大于等于0的数字"  >
                     <span class="input-group-addon"><i class="icon icon-star"></i></span>
                 </div>
                 <br>
@@ -335,16 +335,16 @@
         $('#capacity').val(parseInt(capacity));
         return true;
     }
-    $(".form-date").datetimepicker({
-        language:  "zh-CN",
+    // 选择时间和日期
+    $(".form-datetime").datetimepicker({
         weekStart: 1,
         todayBtn:  1,
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
-        minView: 2,
         forceParse: 0,
-        format: "yyyy-mm-dd"
+        showMeridian: 1,
+        format: "yyyy-mm-dd hh:ii"
     });
 </script>
         

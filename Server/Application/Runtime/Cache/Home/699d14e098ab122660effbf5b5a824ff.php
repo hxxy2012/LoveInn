@@ -19,8 +19,6 @@
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
 
-
-
 </head>
 <body class=" theme-blue">
 
@@ -180,7 +178,7 @@
                     class="fa fa-fw fa-fighter-jet"></i>活动管理<i class="fa fa-collapse"></i></a></li>
             <li>
                 <ul class="room-menu nav nav-list collapse in">
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
+                    <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
                     <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
@@ -243,6 +241,9 @@
                                 <p>组织机构: <?php echo ($vo["agency_name"]); ?></p>
                                 <p>招募人数: <?php echo ($vo["capacity"]); ?></p>
                                 <p>详情: <?php echo ($vo["info"]); ?></p>
+                                <p>活动图片:
+                                    <img src="<?php echo ($vo["photo"]); ?>" width="220px" class="img-responsive" alt="活动图片">
+                                </p>
                             </div>
                         </div>
                     </div>

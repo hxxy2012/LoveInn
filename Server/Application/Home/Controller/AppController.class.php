@@ -45,7 +45,7 @@ class AppController extends Controller {
     // 获取活动列表
     public function getActivityList() {
         $activity = M('activity');
-        $list = $activity->where('isend=0')->field('id, name, summary')->select();
+        $list = $activity->where('isend=0')->field('id, name, summary, photo')->select();
         $this->ajaxReturn($list, 'json');
     }
 

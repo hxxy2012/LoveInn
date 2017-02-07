@@ -203,7 +203,8 @@
         
         <h2 class="header-dividing">我的公益活动列表</h2>
 <a href="<?php echo U("/Home/Index/a_activity");?>" type="button" class="btn btn-primary" style="margin-bottom: 20px;">添加新活动</a>
-<table class="table">
+<h3 class="header-dividing" style="color: #38B03F; font-weight: bold;">未结束</h3>
+<table class="table datatable">
     <thead>
     <tr>
         <th>#</th>
@@ -211,11 +212,12 @@
         <th>活动种类</th>
         <th>简介</th>
         <th>开始时间</th>
+        <th>结束时间</th>
         <th>招募人数</th>
-        <th>活动状态</th>
-        <th style="width: 3.5em;"></th>
-        <th style="width: 3.5em;"></th>
-        <th></th>
+        <th class="sort-disabled" style="width: 3.5em;"></th>
+        <th class="sort-disabled" style="width: 3.5em;"></th>
+        <th class="sort-disabled" style="width: 3.5em;"></th>
+        <th class="sort-disabled" style="width: 3.5em;"></th>
     </tr>
     </thead>
     <tbody>
@@ -225,12 +227,8 @@
             <td><?php echo ($vo["category_name"]); ?></td>
             <td><?php echo ($vo["summary"]); ?></td>
             <td><?php echo ($vo["begintime"]); ?></td>
+            <td><?php echo ($vo["endtime"]); ?></td>
             <td><?php echo ($vo["capacity"]); ?></td>
-            <td>
-                <?php if($vo["isend"] == 0): ?>未开始
-                    <?php else: ?>
-                    已结束<?php endif; ?>
-            </td>
             <td>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<?php echo ($k); ?>">查看详情</button>
                 <div class="modal fade" id="myModal<?php echo ($k); ?>">
@@ -258,24 +256,84 @@
                     </div>
                 </div>
             </td>
-            <?php if($vo["isend"] == 0): ?><td>
-                    <a type="button" href="<?php echo U("/Home/Index/a_activity?id=$vo[id]");?>" class="btn btn-primary">编&nbsp;&nbsp;&nbsp;辑</a>
-                </td>
-                <?php else: ?>
-                <td>
-                    <a type="button" href="#" disabled class="btn btn-primary" onclick="del();">已结束</a>
-                </td><?php endif; ?>
-            <?php if($vo["isend"] == 0): ?><td>
-                    <a type="button" href="<?php echo U("/Home/Index/a_delactivity?id=$vo[id]");?>" class="btn btn-primary" onclick="del();">删&nbsp;&nbsp;&nbsp;除</a>
-                </td>
-                <?php else: ?>
-                <td>
-                    <a type="button" href="#" disabled class="btn btn-primary" onclick="del();">已结束</a>
-                </td><?php endif; ?>
+            <td>
+                <a type="button" href="<?php echo U("/Home/Index/a_apply?id=$vo[id]");?>" class="btn btn-primary">报名情况</a>
+            </td>
+            <td>
+                <a type="button" href="<?php echo U("/Home/Index/a_activity?id=$vo[id]");?>" class="btn btn-primary">编&nbsp;&nbsp;&nbsp;辑</a>
+            </td>
+            <td>
+                <a type="button" href="<?php echo U("/Home/Index/a_delactivity?id=$vo[id]");?>" class="btn btn-primary" onclick="del();">删&nbsp;&nbsp;&nbsp;除</a>
+            </td>
         </tr><?php endforeach; endif; else: echo "" ;endif; ?>
     </tbody>
 </table>
+<h3 class="header-dividing" style="color: #BD7B46; font-weight: bold;">已结束</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th style="width: 8%;">活动名</th>
+        <th>活动种类</th>
+        <th>简介</th>
+        <th>开始时间</th>
+        <th>结束时间</th>
+        <th>招募人数</th>
+        <th class="sort-disabled" style="width: 3.5em;"></th>
+        <th class="sort-disabled" style="width: 3.5em;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php if(is_array($list_end)): $k = 0; $__LIST__ = $list_end;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($k % 2 );++$k;?><tr>
+            <td><?php echo ($k); ?></td>
+            <td><?php echo ($vo["name"]); ?></td>
+            <td><?php echo ($vo["category_name"]); ?></td>
+            <td><?php echo ($vo["summary"]); ?></td>
+            <td><?php echo ($vo["begintime"]); ?></td>
+            <td><?php echo ($vo["endtime"]); ?></td>
+            <td><?php echo ($vo["capacity"]); ?></td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2<?php echo ($k); ?>">查看详情</button>
+                <div class="modal fade" id="myModal2<?php echo ($k); ?>">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                                <h4 class="modal-title"><?php echo ($vo["name"]); ?></h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>简介: <?php echo ($vo["summary"]); ?></p>
+                                <p>开始时间: <?php echo ($vo["begintime"]); ?></p>
+                                <p>结束时间: <?php echo ($vo["endtime"]); ?></p>
+                                <p>地点: <?php echo ($vo["location"]); ?></p>
+                                <p>活动种类: <?php echo ($vo["category_name"]); ?></p>
+                                <p>联系方式: <?php echo ($vo["contact"]); ?></p>
+                                <p>组织机构: <?php echo ($vo["agency_name"]); ?></p>
+                                <p>招募人数: <?php echo ($vo["capacity"]); ?></p>
+                                <p>详情: <?php echo ($vo["info"]); ?></p>
+                                <p>活动图片:
+                                    <img src="<?php echo ($vo["photo"]); ?>" width="220px" class="img-responsive" alt="活动图片">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <a type="button" href="#" class="btn btn-primary">评&nbsp;&nbsp;&nbsp;分</a>
+            </td>
+        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+    </tbody>
+</table>
+<!--<script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>-->
+<!--<link rel="stylesheet" href="/LoveInn/Public/lib/datatable/zui.datatable.min.css">-->
+<!--<script src="/LoveInn/Public/lib/datatable/zui.datatable.min.js"></script>-->
 <script type="text/javascript">
+//    $(document).ready(function () {
+//        $('table.datatable').datatable({
+//            sortable: true,
+//        });
+//    });
     function del() {
         if (!confirm("确认要删除？")) {
             window.event.returnValue = false;

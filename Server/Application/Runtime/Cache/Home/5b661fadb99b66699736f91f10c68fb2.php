@@ -201,30 +201,154 @@
     <div class="main-content">
 
         
-        <h2 class="header-dividing">活动报名列表(已通过)</h2>
-<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="panel" style="width: 50%;">
-        <div class="panel-heading">
-            <p style="font-size: 20px; font-weight: bold;"><?php echo ($vo["activity_name"]); ?></p>
-        </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>用户姓名</th>
-                <th>用户帐号</th>
-                <th>报名时间</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php if(is_array($vo['sub'])): $k = 0; $__LIST__ = $vo['sub'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$sub): $mod = ($k % 2 );++$k;?><tr>
-                    <td><?php echo ($k); ?></td>
-                    <td><?php echo ($sub["user_realname"]); ?></td>
-                    <td><?php echo ($sub["user_name"]); ?></td>
-                    <td><?php echo ($sub["time"]); ?></td>
-                </tr><?php endforeach; endif; else: echo "" ;endif; ?>
-            </tbody>
-        </table>
-    </div><?php endforeach; endif; else: echo "" ;endif; ?>
+        <h2><?php echo ($activity_name); ?></h2>
+<h3 class="header-dividing">活动报名列表</h3>
+<h4>待审核</h4>
+<table class="table datatable" id="datatable">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>用户姓名</th>
+        <th>用户帐号</th>
+        <th>报名时间</th>
+        <th>用户爱心币</th>
+        <!--<th class="sort-disabled">操作</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <?php if(is_array($list)): $k = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($k % 2 );++$k;?><tr id="<?php echo ($vo["id"]); ?>">
+            <td><?php echo ($k); ?><input type="text" hidden value="<?php echo ($vo["id"]); ?>" class="hide_input"></td>
+            <td><?php echo ($vo["user_realname"]); ?></td>
+            <td><?php echo ($vo["user_name"]); ?></td>
+            <td><?php echo ($vo["time"]); ?></td>
+            <td><?php echo ($vo["user_money"]); ?></td>
+            <!--<td>-->
+                <!--<a href="<?php echo U("/Home/Index/a_apply_success?id=$vo[id]");?>" type="button" class="btn btn-success">通过</a>-->
+                <!--<a href="<?php echo U("/Home/Index/a_apply_deny?id=$vo[id]");?>" type="button" class="btn btn-danger">拒绝</a>-->
+            <!--</td>-->
+        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+    </tbody>
+</table>
+<div>
+    <button class="btn btn-success" id="success_many">批量通过</button>&nbsp;&nbsp;
+    <button class="btn btn-danger" id="deny_many">批量拒绝</button>
+</div>
+<br>
+<h4>已通过</h4>
+<table class="table datatable" id="datatable_true">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>用户姓名</th>
+        <th>用户帐号</th>
+        <th>报名时间</th>
+        <th>用户爱心币</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php if(is_array($list_join)): $k = 0; $__LIST__ = $list_join;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($k % 2 );++$k;?><tr id="<?php echo ($vo["id"]); ?>">
+            <td><?php echo ($k); ?></td>
+            <td><?php echo ($vo["user_realname"]); ?></td>
+            <td><?php echo ($vo["user_name"]); ?></td>
+            <td><?php echo ($vo["time"]); ?></td>
+            <td><?php echo ($vo["user_money"]); ?></td>
+        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+    </tbody>
+</table>
+
+<script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>
+<link rel="stylesheet" href="/LoveInn/Public/lib/datatable/zui.datatable.min.css">
+<script src="/LoveInn/Public/lib/datatable/zui.datatable.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#datatable').datatable({
+            sortable: true,
+            checkable: true,
+        });
+
+        $('#datatable_true').datatable({
+            sortable: true,
+        });
+
+        // 批量通过
+        $("#success_many").on('click', function() {
+            // 获取数据表格实例对象
+            var myDatatable = $('#datatable').data('zui.datatable');
+
+            // 获取行选中数据
+            var checksStatus = myDatatable.checks;
+            if(!checksStatus) {
+                alert('请选择至少一行');
+                return;
+            }
+            var checksArray = checksStatus.checks;
+            if(checksArray.length == 0) {
+                alert('请选择至少一行');
+                return;
+            }
+            // 发送选中的行id, 即apply id
+            var postdata = {
+                ids: checksArray
+            };
+            $.ajax({
+                url: '<?php echo U("/Home/Index/a_apply_success_many");?>',
+                method: "POST",
+                data: postdata,
+            }).done(function(dataget) {
+                console.log(dataget);
+                if(dataget == 1) {
+                    alert('通过成功');
+                    location.reload();
+                }
+                if(dataget == 0) {
+                    alert('通过失败, 请稍后重试');
+                }
+            }).fail(function() {
+                alert('请求失败, 请稍后重试');
+            })
+
+        });
+
+        // 批量拒绝
+        $("#deny_many").on('click', function() {
+            // 获取数据表格实例对象
+            var myDatatable = $('#datatable').data('zui.datatable');
+
+            // 获取行选中数据
+            var checksStatus = myDatatable.checks;
+            if(!checksStatus) {
+                alert('请选择至少一行');
+                return;
+            }
+            var checksArray = checksStatus.checks;
+            if(checksArray.length == 0) {
+                alert('请选择至少一行');
+                return;
+            }
+            // 发送选中的行id, 即apply id
+            var postdata = {
+                ids: checksArray
+            };
+            $.ajax({
+                url: '<?php echo U("/Home/Index/a_apply_deny_many");?>',
+                method: "POST",
+                data: postdata,
+            }).done(function(dataget) {
+                console.log(dataget);
+                if(dataget == 1) {
+                    alert('拒绝成功');
+                    location.reload();
+                }
+                if(dataget == 0) {
+                    alert('拒绝失败, 请稍后重试');
+                }
+            }).fail(function() {
+                alert('请求失败, 请稍后重试');
+            })
+
+        });
+    });
+</script>
         
 
 

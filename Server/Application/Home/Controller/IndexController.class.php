@@ -485,8 +485,10 @@ class IndexController extends Controller {
         $this->isAgencyLogin();
         $account = $_SESSION['account'];
         $activities = D('ActivityView');
-        $data = $activities->where('username="%s"', $account)->order('isend,category_name')->select();
+        $data = $activities->where('username="%s" and isend=0', $account)->order('category_name')->select();
+        $data_end = $activities->where('username="%s" and isend=1', $account)->order('category_name')->select();
         $this->assign('list', $data);
+        $this->assign('list_end', $data_end);
         $this->display();
     }
 
@@ -496,7 +498,7 @@ class IndexController extends Controller {
         $id = I('request.id');
         $agency_id = M('agency')->where('username="%s"', $_SESSION['account'])->getField('id');
         $activity = M('activity');
-        $result = $activity->where('id=%d and agencyid=%d', $id, $agency_id)->delete();
+        $result = $activity->where('id=%d and agencyid=%d and isend=0', $id, $agency_id)->delete();
         if($result) {
             echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
             echo "<script>alert('删除成功');</script>";
@@ -521,6 +523,12 @@ class IndexController extends Controller {
         $list = M('category')->select();
         if($id) { // 修改活动
             $data = M('activity')->where('id=%d', $id)->find();
+            $isend = $data['isend'];
+            if($isend == 1) {
+                echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                echo "<script>alert('该活动已结束, 无法编辑');history.go(-1);</script>";
+                return;
+            }
             foreach ($list as &$item) {
                 if($item['id'] == $data['categoryid']) {
                     $item['selected'] = 'selected="true"';
@@ -599,4 +607,73 @@ class IndexController extends Controller {
         }
     }
 
+    // 每个活动的报名情况
+    public function a_apply() {
+        $this->isAgencyLogin();
+        $activity_id = I('request.id');
+        if(!$activity_id) {
+            return;
+        }
+        $activity_name = M('activity')->where('id=%d', $activity_id)->getField('name');
+        $this->assign('activity_name', $activity_name);
+        $applies = D('ApplyView');
+        $list = $applies->where('activityid=%d and isjoin=0', $activity_id)->select();
+        $list_join = $applies->where('activityid=%d and isjoin=1', $activity_id)->select();
+        $this->assign('list', $list);
+        $this->assign('list_join', $list_join);
+        $this->display();
+    }
+
+    // 批量报名通过
+    public function a_apply_success_many() {
+        $this->isAgencyLogin();
+        $ids = I('post.ids');
+        $apply = M('apply');
+        $apply->startTrans();
+        try {
+            foreach ($ids as $id) {
+                $apply->where('id=%d', $id)->setField('isjoin', 1);
+            }
+            $apply->commit();
+            echo '1';
+        } catch(Exception $e) {
+            $apply->rollback();
+            echo '0';
+        }
+    }
+
+    // 批量报名拒绝
+    public function a_apply_deny_many() {
+        $this->isAgencyLogin();
+        $ids = I('post.ids');
+        $apply = M('apply');
+        $apply->startTrans();
+        try {
+            foreach ($ids as $id) {
+                $apply->where('id=%d', $id)->setField('isjoin', -1);
+            }
+            $apply->commit();
+            echo '1';
+        } catch(Exception $e) {
+            $apply->rollback();
+            echo '0';
+        }
+    }
+
+    // 通过某个报名
+    public function a_apply_success() {
+        $this->isAgencyLogin();
+        $id = I('request.id');
+        if($id) {
+            $apply = M('apply');
+            $result = $apply->where('id=%d', $id)->setField('isjoin', 1);
+            if($result) {
+                echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                echo "<script>alert('通过成功');history.go(-1);</script>";
+            } else {
+                echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                echo "<script>alert('通过失败');history.go(-1);</script>";
+            }
+        }
+    }
 }
