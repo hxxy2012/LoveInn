@@ -32,21 +32,22 @@
 
 ### activity (公益活动表)
 
-| 字段         | 类型       | 说明        | 默认值    |
-| ---------- | -------- | --------- | ------ |
-| id         | int      | 标识        |        |
-| name       | varchar  | 活动名称      |        |
-| summary    | varchar  | 简介        |        |
-| info       | varchar  | 详细介绍      |        |
-| photo      | varchar  | 活动图片      |        |
-| begintime  | datetime | 活动开始时间    |        |
-| endtime    | datetime | 活动结束时间    |        |
-| location   | varchar  | 活动地址      |        |
-| categoryid | int      | 活动种类(外键)  |        |
-| contact    | varchar  | 联系电话      |        |
-| agencyid   | int      | 公益机构(外键)  |        |
-| capacity   | int      | 最大报名人数    |        |
-| isend      | int      | 活动结束(0/1) | 0(未结束) |
+| 字段         | 类型       | 说明         | 默认值    |
+| ---------- | -------- | ---------- | ------ |
+| id         | int      | 标识         |        |
+| name       | varchar  | 活动名称       |        |
+| summary    | varchar  | 简介         |        |
+| info       | varchar  | 详细介绍       |        |
+| photo      | varchar  | 活动图片       |        |
+| begintime  | datetime | 活动开始时间     |        |
+| endtime    | datetime | 活动结束时间     |        |
+| location   | varchar  | 活动地址       |        |
+| categoryid | int      | 活动种类(外键)   |        |
+| contact    | varchar  | 联系电话       |        |
+| agencyid   | int      | 公益机构(外键)   |        |
+| capacity   | int      | 最大报名人数     |        |
+| isend      | int      | 活动结束(0/1)  | 0(未结束) |
+| israte     | int      | 是否已评分(0/1) | 0未评分   |
 
 ### category (活动种类表)
 
@@ -77,7 +78,7 @@
 | userid     | int          | 志愿者id(外键)         |                   |
 | activityid | int          | 活动id(外键)          |                   |
 | time       | timestamp(4) | 报名时间              | CURRENT_TIMESTAMP |
-| rate       | int          | 组织者对志愿者的评分(10分满分) |                   |
+| rate       | decimal(2,1) | 组织者对志愿者的评分(10分满分) |                   |
 | isjoin     | int          | 审核是否通过(-1/0/1)    | 0                 |
 
 ### admin (管理员表)
