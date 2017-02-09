@@ -485,11 +485,35 @@ class IndexController extends Controller {
         $this->isAgencyLogin();
         $account = $_SESSION['account'];
         $activities = D('ActivityView');
-        $data = $activities->where('username="%s" and isend=0', $account)->order('category_name')->select();
-        $data_end = $activities->where('username="%s" and isend=1', $account)->order('category_name')->select();
+        $data = $activities->where('username="%s" and isend=0', $account)->order('begintime')->select();
+        $data_end = $activities->where('username="%s" and isend=1', $account)->order('endtime desc')->select();
         $this->assign('list', $data);
         $this->assign('list_end', $data_end);
         $this->display();
+    }
+
+    // 结束该活动
+    public function end_activity() {
+        $this->isAgencyLogin();
+        $id = I('request.id');
+        $activity = M('activity');
+        $activity->startTrans();
+        try {
+            $activity->where('id=%d', $id)->setField('isend', 1);
+            $apply = M('apply');
+            // 将报名该活动但还未审核的置为拒绝
+            $apply->where('activityid=%d and isjoin=0', $id)->setField('isjoin', -1);
+            $activity->commit();
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('结束成功');</script>";
+            $this->redirect('/Home/Index/a_activities');
+
+        } catch(Exception $e) {
+            $activity->rollback();
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('结束失败');</script>";
+            $this->redirect('/Home/Index/a_activities');
+        }
     }
 
     // 删除活动
@@ -614,6 +638,12 @@ class IndexController extends Controller {
         if(!$activity_id) {
             return;
         }
+        $isend = M('activity')->where('id=%d', $activity_id)->getField('isend');
+        if($isend == 1) {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('活动已结束'); history.go(-1);</script>";
+            return;
+        }
         $activity_name = M('activity')->where('id=%d', $activity_id)->getField('name');
         $this->assign('activity_name', $activity_name);
         $applies = D('ApplyView');
@@ -660,7 +690,7 @@ class IndexController extends Controller {
         }
     }
 
-    // 通过某个报名
+    // 通过某个报名____暂时无用
     public function a_apply_success() {
         $this->isAgencyLogin();
         $id = I('request.id');
@@ -674,6 +704,92 @@ class IndexController extends Controller {
                 echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
                 echo "<script>alert('通过失败');history.go(-1);</script>";
             }
+        }
+    }
+
+    public function a_rate() {
+        $this->isAgencyLogin();
+        $activity_id = I('request.id');
+        if(!$activity_id) {
+            return;
+        }
+        $isend = M('activity')->where('id=%d', $activity_id)->getField('isend');
+        if($isend == 0) {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('活动还未结束'); history.go(-1);</script>";
+            return;
+        }
+        $israte = M('activity')->where('id=%d', $activity_id)->getField('israte');
+        $this->assign('israte', $israte);
+        $activity_name = M('activity')->where('id=%d', $activity_id)->getField('name');
+        $this->assign('activity_name', $activity_name);
+        $applies = D('ApplyView');
+        $list = $applies->where('activityid=%d and isjoin=1', $activity_id)->select();
+        $this->assign('list', $list);
+        $this->display();
+    }
+
+    // 首次进行评分
+    public function a_rate_submit() {
+        $this->isAgencyLogin();
+        $rates = I('rates');
+        $apply = M('apply');
+        $apply->startTrans();
+        try {
+            foreach ($rates as $rate) {
+                // 给每位志愿者评分
+                $apply->where('id=%d', $rate['id'])->setField('rate', $rate['rate']);
+                // 按照积分规则, 爱心币每次累加评分*2
+                $money = $rate['rate']*2;
+                $volunteer = M('volunteer');
+                // 获取志愿者id
+                $volunteer_id = $apply->where('id=%d', $rate['id'])->getField('userid');
+                // 积累爱心币
+                $volunteer->where('id=%d', $volunteer_id)->setInc('money', $money);
+            }
+            // 获取该活动id
+            $activity_id = M('apply')->where('id=%d', $rates[0]['id'])->getField('activityid');
+            $activity = M('activity');
+            // 将该活动israte是否已评分标志位置为1
+            $activity->where('id=%d', $activity_id)->setField('israte', 1);
+            $apply->commit();
+            echo '1';
+        } catch(Exception $e) {
+            $apply->rollback();
+            echo '0';
+        }
+    }
+
+    // 修改评分
+    public function a_rate_change() {
+        $this->isAgencyLogin();
+        $rates = I('rates');
+        $apply = M('apply');
+        $apply->startTrans();
+        try {
+            // 给每位志愿者评分
+            foreach ($rates as $rate) {
+                // 先获取原来的评分
+                $old_rate = $apply->where('id=%d', $rate['id'])->getField('rate');
+                // 原来加上的爱心币
+                $old_money = $old_rate * 2;
+                $volunteer = M('volunteer');
+                // 获取志愿者id
+                $volunteer_id = $apply->where('id=%d', $rate['id'])->getField('userid');
+                // 先减少原来的爱心币
+                $volunteer->where('id=%d', $volunteer_id)->setDec('money', $old_money);
+                // 给每位志愿者评分
+                $apply->where('id=%d', $rate['id'])->setField('rate', $rate['rate']);
+                // 按照积分规则, 爱心币每次累加评分*2
+                $money = $rate['rate'] * 2;
+                // 积累爱心币
+                $volunteer->where('id=%d', $volunteer_id)->setInc('money', $money);
+            }
+            $apply->commit();
+            echo '1';
+        } catch(Exception $e) {
+            $apply->rollback();
+            echo '0';
         }
     }
 }

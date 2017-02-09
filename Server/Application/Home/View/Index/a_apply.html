@@ -1,6 +1,6 @@
 <h2>{$activity_name}</h2>
 <h3 class="header-dividing">活动报名列表</h3>
-<h4>待审核</h4>
+<h4>待审核{$list|count}人</h4>
 <table class="table datatable" id="datatable">
     <thead>
     <tr>
@@ -33,7 +33,7 @@
     <button class="btn btn-danger" id="deny_many">批量拒绝</button>
 </div>
 <br>
-<h4>已通过</h4>
+<h4>已通过{$list_join|count}人</h4>
 <table class="table datatable" id="datatable_true">
     <thead>
     <tr>

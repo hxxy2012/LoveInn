@@ -179,7 +179,6 @@
             <li>
                 <ul class="room-menu nav nav-list collapse in">
                     <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
 
@@ -211,6 +210,7 @@
         <th>简介</th>
         <th>开始时间</th>
         <th>组织机构</th>
+        <th style="width: 3.5em;"></th>
         <th style="width: 3.5em;"></th>
     </tr>
     </thead>

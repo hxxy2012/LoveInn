@@ -11,10 +11,11 @@
         <th>开始时间</th>
         <th>结束时间</th>
         <th>招募人数</th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
     </tr>
     </thead>
     <tbody>
@@ -62,6 +63,9 @@
             </td>
             <td>
                 <a type="button" href="{:U("/Home/Index/a_delactivity?id=$vo[id]")}" class="btn btn-primary" onclick="del();">删&nbsp;&nbsp;&nbsp;除</a>
+            </td>
+            <td>
+                <a type="button" href="{:U("/Home/Index/end_activity?id=$vo[id]")}" class="btn btn-primary" onclick="end();">结束活动</a>
             </td>
         </tr>
     </volist>
@@ -120,7 +124,7 @@
                 </div>
             </td>
             <td>
-                <a type="button" href="#" class="btn btn-primary">评&nbsp;&nbsp;&nbsp;分</a>
+                <a type="button" href="{:U("/Home/Index/a_rate?id=$vo[id]")}" class="btn btn-primary">评&nbsp;&nbsp;&nbsp;分</a>
             </td>
         </tr>
     </volist>
@@ -137,6 +141,12 @@
 //    });
     function del() {
         if (!confirm("确认要删除？")) {
+            window.event.returnValue = false;
+        }
+    }
+
+    function end() {
+        if (!confirm("确认要结束？")) {
             window.event.returnValue = false;
         }
     }

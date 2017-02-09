@@ -11,7 +11,7 @@ use Think\Model\ViewModel;
 
 
 /*报名视图模型
-   模型列: id, user_id, user_name, user_realname, activity_id, activity_name, time, rate, isjoin
+   模型列: id, user_id, user_name, user_realname, user_money, activity_id, activity_name, time, rate, isjoin
 */
 class ApplyViewModel extends ViewModel {
     public $viewFields = array(

@@ -179,7 +179,6 @@
             <li>
                 <ul class="room-menu nav nav-list collapse in">
                     <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
 
@@ -214,10 +213,11 @@
         <th>开始时间</th>
         <th>结束时间</th>
         <th>招募人数</th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
-        <th class="sort-disabled" style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
+        <th style="width: 3.5em;"></th>
     </tr>
     </thead>
     <tbody>
@@ -264,6 +264,9 @@
             </td>
             <td>
                 <a type="button" href="<?php echo U("/Home/Index/a_delactivity?id=$vo[id]");?>" class="btn btn-primary" onclick="del();">删&nbsp;&nbsp;&nbsp;除</a>
+            </td>
+            <td>
+                <a type="button" href="<?php echo U("/Home/Index/end_activity?id=$vo[id]");?>" class="btn btn-primary" onclick="end();">结束活动</a>
             </td>
         </tr><?php endforeach; endif; else: echo "" ;endif; ?>
     </tbody>
@@ -320,7 +323,7 @@
                 </div>
             </td>
             <td>
-                <a type="button" href="#" class="btn btn-primary">评&nbsp;&nbsp;&nbsp;分</a>
+                <a type="button" href="<?php echo U("/Home/Index/a_rate?id=$vo[id]");?>" class="btn btn-primary">评&nbsp;&nbsp;&nbsp;分</a>
             </td>
         </tr><?php endforeach; endif; else: echo "" ;endif; ?>
     </tbody>
@@ -336,6 +339,12 @@
 //    });
     function del() {
         if (!confirm("确认要删除？")) {
+            window.event.returnValue = false;
+        }
+    }
+
+    function end() {
+        if (!confirm("确认要结束？")) {
             window.event.returnValue = false;
         }
     }

@@ -179,7 +179,6 @@
             <li>
                 <ul class="room-menu nav nav-list collapse in">
                     <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
 
@@ -203,7 +202,7 @@
         
         <h2><?php echo ($activity_name); ?></h2>
 <h3 class="header-dividing">活动报名列表</h3>
-<h4>待审核</h4>
+<h4>待审核<?php echo (count($list)); ?>人</h4>
 <table class="table datatable" id="datatable">
     <thead>
     <tr>
@@ -234,7 +233,7 @@
     <button class="btn btn-danger" id="deny_many">批量拒绝</button>
 </div>
 <br>
-<h4>已通过</h4>
+<h4>已通过<?php echo (count($list_join)); ?>人</h4>
 <table class="table datatable" id="datatable_true">
     <thead>
     <tr>

@@ -179,7 +179,6 @@
             <li>
                 <ul class="room-menu nav nav-list collapse in">
                     <li><a href="<?php echo U('/Home/Index/a_activities');?>"><span class="fa fa-caret-right"></span>活动列表</a></li>
-                    <li><a href="<?php echo U('/Home/Index/rooms');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
 
@@ -202,19 +201,19 @@
 
         
         <h2 class="header-dividing">活动种类列表</h2>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_add_category">添加新种类</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_add_category" style="margin-bottom: 20px;">添加新种类</button>
 <div class="modal fade" id="myModal_add_category">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title">添加新活动</h4>
+                <h4 class="modal-title">添加新活动种类</h4>
             </div>
             <form method="post" onsubmit="return checkInput();">
                 <div class="modal-body">
                     <div class="input-group">
-                        <span class="input-group-addon">活动名</span>
-                        <input type="text" class="form-control" name="category_name" id="add_category_input" placeholder="活动名">
+                        <span class="input-group-addon">活动种类名</span>
+                        <input type="text" class="form-control" name="category_name" id="add_category_input" placeholder="活动种类名">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -229,7 +228,7 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>活动名</th>
+        <th>活动种类名</th>
         <th style="width: 3.5em;"></th>
         <th></th>
     </tr>
@@ -250,16 +249,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                    <h4 class="modal-title">修改活动名</h4>
+                    <h4 class="modal-title">修改活动种类名</h4>
                 </div>
                 <form method="post">
                     <div class="modal-body">
                         <div class="input-group">
-                            <span class="input-group-addon">活动名</span>
-                            <input type="text" class="form-control" name="category_change_name" id="category_name_input" placeholder="活动名">
+                            <span class="input-group-addon">活动种类名</span>
+                            <input type="text" class="form-control" name="category_change_name" id="category_name_input" placeholder="活动种类名">
                         </div>
                         <div class="alert alert-success alert-info">修改成功</div>
-                        <div class="alert alert-danger alert-info">活动名重复</div>
+                        <div class="alert alert-danger alert-info">活动种类名重复</div>
                         <div class="alert alert-warning alert-info">修改失败</div>
                     </div>
                     <div class="modal-footer">

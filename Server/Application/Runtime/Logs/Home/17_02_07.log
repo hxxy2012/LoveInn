@@ -9496,3 +9496,31 @@ INFO: [ app_end ] --START--
 INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000627s ]
 INFO: [ app_end ] --END-- [ RunTime:0.000660s ]
 
+[ 2017-02-07T23:43:00+08:00 ] ::1 /LoveInn/index.php/Home/Index/a_activities.html
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000284s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000406s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000433s ]
+SQL: SHOW COLUMNS FROM `agency` [ RunTime:0.0052s ]
+SQL: SELECT * FROM `agency` WHERE ( username='333' )  [ RunTime:0.0003s ]
+SQL: SHOW COLUMNS FROM `activity` [ RunTime:0.0032s ]
+SQL: SHOW COLUMNS FROM `category` [ RunTime:0.0027s ]
+SQL: SELECT activity.id AS id,activity.name AS name,activity.summary AS summary,activity.info AS info,activity.photo AS photo,activity.begintime AS begintime,activity.endtime AS endtime,activity.location AS location,activity.contact AS contact,activity.capacity AS capacity,activity.isend AS isend,category.name AS category_name,agency.name AS agency_name,agency.username AS agency_username FROM activity activity  JOIN category category ON activity.categoryid=category.id  JOIN agency agency ON activity.agencyid=agency.id WHERE ( username="333" and isend=0 ) ORDER BY category.name ASC  [ RunTime:0.0005s ]
+SQL: SELECT activity.id AS id,activity.name AS name,activity.summary AS summary,activity.info AS info,activity.photo AS photo,activity.begintime AS begintime,activity.endtime AS endtime,activity.location AS location,activity.contact AS contact,activity.capacity AS capacity,activity.isend AS isend,category.name AS category_name,agency.name AS agency_name,agency.username AS agency_username FROM activity activity  JOIN category category ON activity.categoryid=category.id  JOIN agency agency ON activity.agencyid=agency.id WHERE ( username="333" and isend=1 ) ORDER BY category.name ASC  [ RunTime:0.0004s ]
+INFO: [ view_parse ] --START--
+NOTIC: [2] file_get_contents(./Application/Home/View/Public/header.html): failed to open stream: No such file or directory D:\Apache24\htdocs\LoveInn\ThinkPHP\Library\Think\Template.class.php 第 696 行.
+NOTIC: [2] file_get_contents(./Application/Home/View/Public/footer.html): failed to open stream: No such file or directory D:\Apache24\htdocs\LoveInn\ThinkPHP\Library\Think\Template.class.php 第 696 行.
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000084s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000110s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.008054s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008093s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000244s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000264s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000494s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000551s ]
+
