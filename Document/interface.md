@@ -2,11 +2,11 @@
 
 >   说明: 
 >
->   1.  下列所有接口的访问前缀为 http://qcloud.waydrow.com/LoveInn/index.php/Home/App/
+>   1.  下列所有接口的访问前缀为 https://qcloud.waydrow.com/LoveInn/index.php/Home/App/
 >
 >   2.  数据库图片存放格式为 `/LoveInn/Public/Uploads/2017-02-04/5895f417cca84.jpg`
 >
->       访问图片需加前缀 http://qcloud.waydrow.com
+>       访问图片需加前缀 https://qcloud.waydrow.com
 >
 >       注意: 前缀最后没有 `/`
 
