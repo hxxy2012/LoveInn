@@ -78,13 +78,15 @@ example:
     "id": "6",
     "name": "这是活动1",
     "summary": "没有活动简介",
-    "photo": "/LoveInn/Public/Uploads/2017-02-07/5898a0249cb29.jpg"
+    "photo": "/LoveInn/Public/Uploads/2017-02-07/5898a0249cb29.jpg",
+    "begintime": "2017-02-07 00:00:00"
   },
   {
     "id": "7",
     "name": "这是活动2",
     "summary": "这是简介2",
-    "photo": "/LoveInn/Public/Uploads/2017-02-07/5898a0840c81a.jpg"
+    "photo": "/LoveInn/Public/Uploads/2017-02-07/5898a0840c81a.jpg",
+    "begintime": "2017-02-07 00:00:00"
   }
 ]
 ```

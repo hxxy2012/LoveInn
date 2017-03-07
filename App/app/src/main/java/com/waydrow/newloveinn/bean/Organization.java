@@ -1,4 +1,4 @@
-package com.waydrow.newloveinn.MyClass;
+package com.waydrow.newloveinn.bean;
 
 /**
  * Created by Waydrow on 2016/11/27.

@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.waydrow.newloveinn.fragment.EventFragment;
+import com.waydrow.newloveinn.fragment.ActivityFragment;
 import com.waydrow.newloveinn.fragment.OrganizationFragment;
 
 /**
@@ -24,7 +24,7 @@ public class CategoryAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 0) {
-            return new EventFragment();
+            return new ActivityFragment();
         } else {
             return new OrganizationFragment();
         }

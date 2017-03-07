@@ -1,17 +1,21 @@
 package com.waydrow.newloveinn;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.waydrow.newloveinn.util.API;
 
 import java.io.IOException;
 
@@ -23,13 +27,20 @@ import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private EditText ext_userName;
+    private EditText ext_password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // fullscreen
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         setContentView(R.layout.activity_register);
         // remove title
         getSupportActionBar().hide();
@@ -40,12 +51,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         //register view group
-        final EditText ext_userName= (EditText) findViewById(R.id.usernum);
-        final EditText ext_password= (EditText) findViewById(R.id.password);
-        Button btn_register= (Button) findViewById(R.id.signup1);
+        ext_userName = (EditText) findViewById(R.id.usernum);
+        ext_password = (EditText) findViewById(R.id.password);
+        Button btn_register = (Button) findViewById(R.id.signup1);
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,37 +75,36 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private  void registerWithOkHttp(final String userName, final String password){
-        Log.d("RegisterActicity",userName+"\n"+password);
+    private void registerWithOkHttp(final String userName, final String password) {
+        Log.d("RegisterActicity", userName + "\n" + password);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
-                    OkHttpClient client=new OkHttpClient();
+                try {
+                    OkHttpClient client = new OkHttpClient();
 
-                    RequestBody requestBody=new FormBody.Builder()
-                            .add("username",userName)
-                            .add("password",password)
+                    RequestBody requestBody = new FormBody.Builder()
+                            .add("username", userName)
+                            .add("password", password)
                             .build();
-                    Request request=new Request.Builder()
-                            .url("http://qcloud.waydrow.com/LoveInn/index.php/Home/App/register")
+                    Request request = new Request.Builder()
+                            .url(API.INTERFACE + "register")
                             .post(requestBody)
                             .build();
 
-                    Response response=client.newCall(request).execute();
+                    Response response = client.newCall(request).execute();
 
-                    if(!response.isSuccessful())  throw new IOException("Unexpected code " + response);
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response);
 
                     String responseData = response.body().string();
 
                     showResponse(responseData);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         }).start();
-
     }
 
     // update UI
@@ -101,17 +112,18 @@ public class RegisterActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!response.equals("0")){
-
-
+                if (!response.equals("0")) {
+                    // 清空缓存
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(RegisterActivity.this).edit();
+                    editor.putString(API.PREF_USER_ID, null);
+                    editor.putString(API.PREF_USERNAME, null);
+                    editor.putString(API.PREF_PASSWORD, null);
+                    editor.apply();
                     Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
-
-                }
-                else{
+                } else {
                     Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });

@@ -9,8 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.waydrow.newloveinn.MyClass.Event;
-import com.waydrow.newloveinn.MyClass.Organization;
+import com.waydrow.newloveinn.bean.Organization;
 import com.waydrow.newloveinn.R;
 
 import java.util.List;

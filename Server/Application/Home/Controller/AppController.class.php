@@ -45,7 +45,7 @@ class AppController extends Controller {
     // 获取活动列表
     public function getActivityList() {
         $activity = M('activity');
-        $list = $activity->where('isend=0')->field('id, name, summary, photo')->select();
+        $list = $activity->where('isend=0')->field('id, name, summary, photo, begintime')->select();
         $this->ajaxReturn($list, 'json');
     }
 
@@ -139,12 +139,41 @@ class AppController extends Controller {
             $new_volunteer->address = $address;
             $new_volunteer->info = $info;
             $new_volunteer->stucard = $uploadStuCardResult;
-            $new_volunteer->ispass = 0;
+            $new_volunteer->ispass = 0; // 调整为等待审核状态
             $result = $new_volunteer->where('id=%d', $id)->save();
             if($result) {
                 echo '1';
             } else {
                 echo '0';
+            }
+        }
+    }
+
+    // 获取实名认证状态
+    public function getAuthState() {
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $ispass = $volunteer->where('id=%d', $id)->getField('ispass');
+        echo $ispass;
+    }
+
+    // 报名参加公益活动
+    public function apply() {
+        $user_id = I('user_id');
+        $activity_id = I('activity_id');
+        $apply = M('apply');
+        $result = $apply->where('userid=%d and activityid=%d and isjoin<>-1', $user_id, $activity_id)->find();
+        if($result) {
+            echo '-1'; // 已报名
+        } else {
+            $new_apply = M('apply');
+            $new_apply->userid = $user_id;
+            $new_apply->activityid = $activity_id;
+            $apply_result = $new_apply->add();
+            if($apply_result) {
+                echo '1'; // 报名成功
+            } else {
+                echo '0'; // 报名失败
             }
         }
     }

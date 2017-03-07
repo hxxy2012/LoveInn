@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.waydrow.newloveinn.MyClass.Event;
-import com.waydrow.newloveinn.MyClass.Organization;
+import com.waydrow.newloveinn.bean.Organization;
 import com.waydrow.newloveinn.R;
-import com.waydrow.newloveinn.adapter.EventAdapter;
 import com.waydrow.newloveinn.adapter.OrganizationAdapter;
 
 import java.util.ArrayList;

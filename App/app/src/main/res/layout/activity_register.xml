@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:background="@drawable/signupimage"
+        android:fitsSystemWindows="true"
         android:scaleType="centerCrop" />
 
     <ImageView

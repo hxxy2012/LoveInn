@@ -7,10 +7,10 @@
     tools:context="com.waydrow.newloveinn.LoginActivity">
 
     <FrameLayout
-
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/signinbg"
+        android:fitsSystemWindows="true"
         android:scaleType="centerCrop" />
 
     <ImageView
@@ -39,10 +39,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/acc"
+        android:layout_below="@+id/icon"
         android:orientation="vertical">
 
         <EditText
