@@ -4,7 +4,7 @@
 >
 >   1.  下列所有接口的访问前缀为 https://qcloud.waydrow.com/LoveInn/index.php/Home/App/
 >
->   2.  数据库图片存放格式为 `/LoveInn/Public/Uploads/2017-02-04/5895f417cca84.jpg`
+>   2. 数据库图片存放格式为 `/LoveInn/Public/Uploads/2017-02-04/5895f417cca84.jpg`
 >
 >       访问图片需加前缀 https://qcloud.waydrow.com
 >
@@ -192,11 +192,13 @@ example
 }
 ```
 
-## 8. 上传志愿者头像
+## 8. 上传志愿者头像和学生证
 
 ### 8.1 interface
 
 `uploadAvatar`
+
+`uploadStucard`
 
 ### 8.2 method
 
@@ -204,20 +206,29 @@ post
 
 ### 8.3 send
 
+id: userid
+
 发送文件
 
-`key` 为 `avatar`
+avatar: `key` 为 `avatar`
+
+stucard: `key`为`stucard`
 
 ### 8.4 return
 
--   0: 失败
+-   0: 修改失败
 -   1: 成功
+-   2: 图片上传失败
 
 ## 9. 修改志愿者个人信息(实名认证)
 
 ### 9.1 interface
 
-`changeVolunteerInfo`
+`updateRealname`
+
+`updateSex`
+
+下同....
 
 ### 9.2 method
 
@@ -225,8 +236,8 @@ post
 
 ### 9.3 send
 
--   id, realname, sex, age, idcard, phone, email, info
--   学生证字段`stucard`上传文件, `key` 为 `stucard`
+-   id
+-   realname / sex / age / idcard / phone / email / info
 
 ### 9.4 return
 
@@ -277,3 +288,23 @@ get/post
 -   0: 报名失败
 -   1: 报名成功(存在第一次报名和曾报名但审核拒绝两种情况)
 
+
+## 12. 实名认证
+
+### 11.1 interface
+
+`auth`
+
+### 11.2 method
+
+post
+
+### 11.3 send
+
+id: useid
+
+### 11.4 return
+
+-   -1: 失败
+-   0: 已申请, 请等待
+-   1: 成功, 等待审核
