@@ -17,4 +17,5 @@ public class API {
     public static final String PREF_USER_ID = "user_id";
 
     public static final String PREF_USER_ISPASS = "user_ispass";
+
 }

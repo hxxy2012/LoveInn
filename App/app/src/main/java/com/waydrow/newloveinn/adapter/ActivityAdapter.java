@@ -46,7 +46,7 @@ public class ActivityAdapter extends ArrayAdapter<ActivitySummary> {
         activitySummaryTextView.setText(currentActivity.getSummary());
         activityBeginTimeTextView.setText(currentActivity.getBegintime());
 
-        Glide.with(getContext()).load(API.IMG_HEADER + currentActivity.getPhoto()).into(activityImageView);
+        Glide.with(getContext()).load(API.IMG_HEADER + currentActivity.getPhoto()).crossFade().into(activityImageView);
 
         return listItemView;
 

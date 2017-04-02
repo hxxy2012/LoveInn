@@ -137,6 +137,7 @@ public class AinfoActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Glide.with(AinfoActivity.this).load(API.IMG_HEADER + activityAll.getPhoto())
+                                .thumbnail(0.1f)
                                 .into(activityImageView);
                         collapsingToolbar.setTitle(activityAll.getName());
                         activityInfoTextView.setText(activityAll.getInfo());

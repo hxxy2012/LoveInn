@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.my_profile) {
-            // Handle the camera action
+            Intent intent = new Intent(this, UserActivity.class);
+            startActivity(intent);
         } else if (id == R.id.my_activity) {
 
         } else if (id == R.id.love_bank) {
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void run() {
                             if (volunteer.getAvatar() != null) {
-                                Glide.with(MainActivity.this).load(API.IMG_HEADER + volunteer.getAvatar()).into(userImageView);
+                                Glide.with(MainActivity.this).load(API.IMG_HEADER + volunteer.getAvatar()).crossFade().into(userImageView);
                             } else {
                                 userImageView.setImageResource(R.drawable.avatar);
                             }
