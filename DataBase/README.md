@@ -2,14 +2,15 @@
 
 ### 迭代记录
 
-| 版本   | 时间         | 说明                                 | 修改者     |
-| ---- | ---------- | ---------------------------------- | ------- |
-| v1.0 | 2016.02.02 | 建表                                 | waydrow |
-| v1.1 | 2016.02.03 | 修改apply表中time类型                    | waydrow |
-| v1.2 | 2016.02.03 | 添加admin表                           | waydrow |
-| v1.3 | 2016.02.05 | 在apply表中添加isjoin字段                 | waydrow |
-| v1.4 | 2016.02.05 | 修改volunteer和agency表, ispass字段默认为-1 | waydrow |
-| v1.5 | 2016.02.06 | activity表中添加photo字段                | waydrow |
+| 版本   | 时间         | 说明                                    | 修改者     |
+| ---- | ---------- | ------------------------------------- | ------- |
+| v1.0 | 2016.02.02 | 建表                                    | waydrow |
+| v1.1 | 2016.02.03 | 修改apply表中time类型                       | waydrow |
+| v1.2 | 2016.02.03 | 添加admin表                              | waydrow |
+| v1.3 | 2016.02.05 | 在apply表中添加isjoin字段                    | waydrow |
+| v1.4 | 2016.02.05 | 修改volunteer和agency表, ispass字段默认为-1    | waydrow |
+| v1.5 | 2016.02.06 | activity表中添加photo字段                   | waydrow |
+| v1.6 | 2017.04.27 | 新增 exchange / exapply 表, 爱心币兑换礼品, 申请表 | waydrow |
 
 ### volunteer (志愿者表)
 
@@ -89,3 +90,19 @@
 | account  | varchar | 帐号   |      |
 | password | varchar | 密码   |      |
 | name     | varchar | 昵称   |      |
+
+### exchange (兑换礼品表)
+
+| 字段      | 类型      | 说明      | 默认值  |
+| ------- | ------- | ------- | ---- |
+| id      | int     | 标识      |      |
+| exname  | varchar | 礼品名字    |      |
+| exmoney | varchar | 礼品所需爱心币 |      |
+
+### exapply (兑换申请表)
+
+| 字段     | 类型   | 说明     | 默认值  |
+| ------ | ---- | ------ | ---- |
+| id     | int  | 标识     |      |
+| userid | int  | 申请人 id |      |
+| exid   | int  | 礼品 id  |      |
