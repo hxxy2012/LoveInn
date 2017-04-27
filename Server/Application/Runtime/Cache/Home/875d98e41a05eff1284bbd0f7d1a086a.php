@@ -11,13 +11,13 @@
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/LoveInn/Public/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Loveinn/Public/lib/font-awesome/css/font-awesome.min.css">
 
-    <script src="/LoveInn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/Loveinn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">
@@ -200,7 +200,7 @@
     <div class="main-content">
 
         
-        <link type="text/css" rel="stylesheet" href="/LoveInn/Public/lib/rate/demo/css/application.css">
+        <link type="text/css" rel="stylesheet" href="/Loveinn/Public/lib/rate/demo/css/application.css">
 <h2><?php echo ($activity_name); ?></h2>
 <h3 class="header-dividing">参与志愿者列表</h3>
 <table class="table datatable" id="datatable">
@@ -233,7 +233,7 @@
     <?php else: ?>
     <button type="button" class="btn btn-success" id="rate-change-btn" style="width: 5%;">修&nbsp;&nbsp;改</button><?php endif; ?>
 
-<script type="text/javascript" src="/LoveInn/Public/lib/rate/lib/jquery.raty.js"></script>
+<script type="text/javascript" src="/Loveinn/Public/lib/rate/lib/jquery.raty.js"></script>
 <script>
     $(document).ready(function() {
         $('.rate').raty({
@@ -245,7 +245,7 @@
                     return score_get;
                 }
             },
-            path: '/LoveInn/Public/lib/rate/lib/img/',
+            path: '/Loveinn/Public/lib/rate/lib/img/',
             half: true,
             size: 24,
             hints: ['差', '一般', '良好', '优秀', '棒极了'],
@@ -342,7 +342,7 @@
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
 <script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>
 
-<!--<script src="/LoveInn/Public/lib/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script src="/Loveinn/Public/lib/bootstrap/js/bootstrap.min.js"></script>-->
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

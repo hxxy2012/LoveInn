@@ -1,0 +1,11 @@
+[ 2017-04-27T18:54:28+08:00 ] ::1 /LoveInn/index.php/Home/App/historyInfo?user_id=2
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000016s ]
+INFO: [ app_init ] --END-- [ RunTime:0.012829s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.016025s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.016088s ]
+SQL: SHOW COLUMNS FROM `apply` [ RunTime:0.0282s ]
+SQL: SHOW COLUMNS FROM `activity` [ RunTime:0.0193s ]
+SQL: SELECT apply.id AS id,apply.time AS time,apply.rate AS rate,apply.isjoin AS isjoin,activity.name AS name FROM apply apply  JOIN activity activity ON apply.activityid=activity.id WHERE ( userid=2 ) ORDER BY apply.time desc  [ RunTime:0.0037s ]
+

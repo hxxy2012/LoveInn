@@ -17,6 +17,7 @@
 | v1.0 | 2017.02.02 | 初始化               | waydrow |
 | v1.1 | 2017.02.07 | 活动列表及信息中添加photo字段 | waydrow |
 | v1.2 | 2017.02.16 | 添加报名及获取认证状态接口     | waydrow |
+| v1.3 | 2017.04.27 | 添加获取历史活动信息接口      | waydrow |
 
 ## 1. 登录
 
@@ -291,20 +292,58 @@ get/post
 
 ## 12. 实名认证
 
-### 11.1 interface
+### 12.1 interface
 
 `auth`
 
-### 11.2 method
+### 12.2 method
 
 post
 
-### 11.3 send
+### 12.3 send
 
 id: useid
 
-### 11.4 return
+### 12.4 return
 
 -   -1: 失败
 -   0: 已申请, 请等待
 -   1: 成功, 等待审核
+
+## 13. 历史活动信息
+
+### 13.1 interface
+
+`historyInfo`
+
+### 13.2 method
+
+post
+
+### 13.3 send
+
+id: userId
+
+### 13.4 return
+
+example
+
+```json
+[
+  {
+    "id": "5",
+    "time": "2017-02-09 17:10:42",
+    "rate": "1.0",
+    "isjoin": "1",
+    "name": "活动3"
+  },
+  {
+    "id": "2",
+    "time": "2017-02-09 17:09:39",
+    "rate": "3.0",
+    "isjoin": "1",
+    "name": "测试活动"
+  }
+]
+```
+

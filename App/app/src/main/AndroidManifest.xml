@@ -32,7 +32,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
-            android:label="登陆">
+            android:label="登录">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -131,17 +131,25 @@
         <activity
             android:name=".AinfoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserActivity"></activity>
+        <activity android:name=".UserActivity" />
 
         <provider
-            android:authorities="com.waydrow.newloveinn.fileprovider"
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.waydrow.newloveinn.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity
+            android:name=".HistoryActivity"
+            android:label="我的活动" />
+
+        <activity
+            android:name=".LoveMoneyActivity"
+            android:label="爱心银行" />
     </application>
 
 </manifest>

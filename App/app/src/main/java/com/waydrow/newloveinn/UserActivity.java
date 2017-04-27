@@ -348,12 +348,18 @@ public class UserActivity extends AppCompatActivity {
                 final String[] sex = {"男", "女"};
                 final String[] choice = new String[1];
                 int choose = 0;
-                if (volunteer.getSex().equals("m")) {
+                // Log.d(TAG, "Sex: " + volunteer.getSex());
+                if (volunteer.getSex() != null) {
+                    if (volunteer.getSex().equals("m")) {
+                        choose = 0;
+                        choice[0] = "m";
+                    } else {
+                        choose = 1;
+                        choice[0] = "f";
+                    }
+                } else {
                     choose = 0;
                     choice[0] = "m";
-                } else {
-                    choose = 1;
-                    choice[0] = "f";
                 }
                 builder.setSingleChoiceItems(sex, choose, new DialogInterface.OnClickListener() {
                     @Override
@@ -383,7 +389,7 @@ public class UserActivity extends AppCompatActivity {
                 final EditText et = new EditText(UserActivity.this);
                 et.setText(userIdcardText.getText());
                 new AlertDialog.Builder(UserActivity.this)
-                        .setTitle("输入身份证号")
+                        .setTitle("输入学号")
                         .setView(et)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override

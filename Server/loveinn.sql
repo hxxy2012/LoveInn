@@ -27,20 +27,22 @@ CREATE TABLE `activity` (
   `name` varchar(45) DEFAULT NULL,
   `summary` varchar(65) DEFAULT NULL,
   `info` varchar(100) DEFAULT NULL,
-  `begintime` date DEFAULT NULL,
-  `endtime` date DEFAULT NULL,
+  `photo` varchar(100) DEFAULT NULL,
+  `begintime` datetime DEFAULT NULL,
+  `endtime` datetime DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `categoryid` int(11) DEFAULT NULL,
   `contact` varchar(45) DEFAULT NULL,
   `agencyid` int(11) DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
   `isend` int(11) DEFAULT '0',
+  `israte` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `foreign key 1_idx` (`categoryid`),
   KEY `foreign key 2_idx` (`agencyid`),
   CONSTRAINT `foreign key 1` FOREIGN KEY (`categoryid`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `foreign key 2` FOREIGN KEY (`agencyid`) REFERENCES `agency` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +51,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
-INSERT INTO `activity` VALUES (1,'活动1','summary1','哈哈哈','2017-02-01','2017-02-04','123',1,'17854287060',1,10,0),(2,'活动2','summary2','123',NULL,NULL,NULL,2,NULL,3,NULL,0);
+INSERT INTO `activity` VALUES (3,'活动3','summary3','这是info','/LoveInn/Public/Uploads/2017-02-08/589b1f3b2f194.jpg','2017-02-03 14:20:00','2017-03-01 00:00:00','456',2,'178424',4,20,1,1),(4,'测试活动','没有活动简介','这是一个活动详情222','/LoveInn/Public/Uploads/2017-02-06/589898b8d0e34.jpg','2017-02-09 20:10:00','2017-02-10 00:00:00','中国海洋大学',6,'15178231231',4,20,1,1),(8,'这是另一个活动','没有','还行','/LoveInn/Public/Uploads/2017-02-07/5899c53582fb6.jpg','2017-02-07 13:00:00','2017-02-08 21:18:30','山东',2,'无',4,10,0,0);
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +108,7 @@ CREATE TABLE `agency` (
 
 LOCK TABLES `agency` WRITE;
 /*!40000 ALTER TABLE `agency` DISABLE KEYS */;
-INSERT INTO `agency` VALUES (1,'111','bcbe3365e6ac95ea2c0343a2395834dd','公益机构1',NULL,NULL,NULL,NULL,-1),(3,'444','bcbe3365e6ac95ea2c0343a2395834dd','机构2',NULL,'3232','178542',NULL,0),(4,'333','bcbe3365e6ac95ea2c0343a2395834dd','world','/LoveInn/Public/Uploads/2017-02-05/58972709a71dc.png','4214214','777','/LoveInn/Public/Uploads/2017-02-05/58972d32ca734.jpg',1);
+INSERT INTO `agency` VALUES (1,'111','bcbe3365e6ac95ea2c0343a2395834dd','公益机构1',NULL,NULL,NULL,NULL,-1),(3,'444','bcbe3365e6ac95ea2c0343a2395834dd','机构2','/LoveInn/Public/Uploads/2017-02-09/589c84158c352.jpg','3232','178542','/LoveInn/Public/Uploads/2017-02-09/589c84158d690.jpg',1),(4,'333','bcbe3365e6ac95ea2c0343a2395834dd','world','/LoveInn/Public/Uploads/2017-02-05/58972709a71dc.png','4214214','777','/LoveInn/Public/Uploads/2017-02-09/589c849b7cdf0.jpg',1);
 /*!40000 ALTER TABLE `agency` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,14 +124,14 @@ CREATE TABLE `apply` (
   `userid` int(11) DEFAULT NULL,
   `activityid` int(11) DEFAULT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `rate` int(11) DEFAULT NULL,
+  `rate` decimal(2,1) DEFAULT NULL,
   `isjoin` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `foreign key apply 1_idx` (`userid`),
   KEY `foreign key apply 2_idx` (`activityid`),
   CONSTRAINT `foreign key apply 1` FOREIGN KEY (`userid`) REFERENCES `volunteer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `foreign key apply 2` FOREIGN KEY (`activityid`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +140,7 @@ CREATE TABLE `apply` (
 
 LOCK TABLES `apply` WRITE;
 /*!40000 ALTER TABLE `apply` DISABLE KEYS */;
-INSERT INTO `apply` VALUES (3,1,1,'2017-02-05 07:12:09',NULL,0),(4,1,2,'2017-02-05 07:12:37',NULL,0),(5,2,1,'2017-02-05 08:05:22',NULL,1),(6,3,2,'2017-02-05 08:05:22',NULL,1);
+INSERT INTO `apply` VALUES (1,1,4,'2017-02-08 14:08:47',NULL,-1),(2,2,4,'2017-02-09 09:09:39',3.0,1),(3,3,4,'2017-02-09 09:09:39',2.5,1),(4,1,3,'2017-02-09 08:53:58',0.5,1),(5,2,3,'2017-02-09 09:10:42',1.0,1);
 /*!40000 ALTER TABLE `apply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +155,7 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +164,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'关爱老人'),(2,'还好啦'),(6,'哈哈123123'),(9,'123333');
+INSERT INTO `category` VALUES (1,'关爱老人'),(2,'社区服务'),(6,'关爱儿童'),(10,'其它');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,7 +191,7 @@ CREATE TABLE `volunteer` (
   `money` int(11) DEFAULT '0',
   `ispass` int(11) DEFAULT '-1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +200,7 @@ CREATE TABLE `volunteer` (
 
 LOCK TABLES `volunteer` WRITE;
 /*!40000 ALTER TABLE `volunteer` DISABLE KEYS */;
-INSERT INTO `volunteer` VALUES (1,'222','bcbe3365e6ac95ea2c0343a2395834dd','/LoveInn/Public/Uploads/2017-02-04/5895f417cca84.jpg','你好',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,1),(2,'333','bcbe3365e6ac95ea2c0343a2395834dd',NULL,'小胖子',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(3,'444','bcbe3365e6ac95ea2c0343a2395834dd',NULL,'志愿者3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0);
+INSERT INTO `volunteer` VALUES (1,'222','bcbe3365e6ac95ea2c0343a2395834dd','/LoveInn/Public/Uploads/2017-02-04/5895f417cca84.jpg','你好',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1),(2,'333','bcbe3365e6ac95ea2c0343a2395834dd',NULL,'小胖子',NULL,NULL,NULL,NULL,NULL,NULL,NULL,8,1),(3,'444','bcbe3365e6ac95ea2c0343a2395834dd',NULL,'志愿者3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,5,1),(4,'555','bcbe3365e6ac95ea2c0343a2395834dd',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,-1);
 /*!40000 ALTER TABLE `volunteer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -211,4 +213,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-05 22:17:52
+-- Dump completed on 2017-04-08 20:49:02

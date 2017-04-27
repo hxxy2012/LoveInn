@@ -11,13 +11,13 @@
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/LoveInn/Public/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Loveinn/Public/lib/font-awesome/css/font-awesome.min.css">
 
-    <script src="/LoveInn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/Loveinn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">
@@ -329,8 +329,8 @@
     </tbody>
 </table>
 <!--<script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>-->
-<!--<link rel="stylesheet" href="/LoveInn/Public/lib/datatable/zui.datatable.min.css">-->
-<!--<script src="/LoveInn/Public/lib/datatable/zui.datatable.min.js"></script>-->
+<!--<link rel="stylesheet" href="/Loveinn/Public/lib/datatable/zui.datatable.min.css">-->
+<!--<script src="/Loveinn/Public/lib/datatable/zui.datatable.min.js"></script>-->
 <script type="text/javascript">
 //    $(document).ready(function () {
 //        $('table.datatable').datatable({
@@ -358,7 +358,7 @@
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
 <script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>
 
-<!--<script src="/LoveInn/Public/lib/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script src="/Loveinn/Public/lib/bootstrap/js/bootstrap.min.js"></script>-->
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

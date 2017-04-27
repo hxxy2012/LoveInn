@@ -60,7 +60,7 @@ class AppController extends Controller {
     // 上传图片工具函数
     private function uploadPhoto($filekey){
         $upload = new \Think\Upload();// 实例化上传类
-        $upload->maxSize   =     3145728 ;// 设置附件上传大小
+        $upload->maxSize   =     1113145728 ;// 设置附件上传大小
         $upload->exts      =     array('jpg', 'png', 'jpeg');// 设置附件上传类型
         $upload->rootPath  =      'Public/Uploads/'; // 设置附件上传根目录
         // 上传单个文件
@@ -83,19 +83,49 @@ class AppController extends Controller {
 
     // 上传个人头像
     public function uploadAvatar() {
-        $id = I('id');
-        $uploadResult = $this->uploadPhoto('avatar');
-        if($uploadResult == 0) {
-            echo '0'; // 上传失败
-        } else {
+        $id = $_POST['id'];
+        $upload = new \Think\Upload();// 实例化上传类
+        $upload->maxSize   =     113145728 ;// 设置附件上传大小
+        $upload->exts      =     array('jpg', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath  =      'Public/Uploads/'; // 设置附件上传根目录
+        // 上传单个文件
+        $info   =   $upload->uploadOne($_FILES['avatar']);
+        if ($info) {
+            $dir =  '/LoveInn/Public/Uploads/' . $info['savepath'].$info['savename'];
             $volunteer = M('volunteer');
-            $volunteer->avatar = $uploadResult;
+            $volunteer->avatar = $dir;
             $result = $volunteer->where('id=%d', $id)->save();
             if($result) {
                 echo '1';
             } else {
                 echo '0';
             }
+        } else {
+            echo '2';
+        }
+    }
+
+    // 上传学生证
+    public function uploadStucard() {
+        $id = $_POST['id'];
+        $upload = new \Think\Upload();// 实例化上传类
+        $upload->maxSize   =     113145728 ;// 设置附件上传大小
+        $upload->exts      =     array('jpg', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath  =      'Public/Uploads/'; // 设置附件上传根目录
+        // 上传单个文件
+        $info   =   $upload->uploadOne($_FILES['stucard']);
+        if ($info) {
+            $dir =  '/LoveInn/Public/Uploads/' . $info['savepath'].$info['savename'];
+            $volunteer = M('volunteer');
+            $volunteer->stucard = $dir;
+            $result = $volunteer->where('id=%d', $id)->save();
+            if($result) {
+                echo '1';
+            } else {
+                echo '0';
+            }
+        } else {
+            echo '2';
         }
     }
 
@@ -115,6 +145,104 @@ class AppController extends Controller {
         echo $data;
     }
 
+    // 修改姓名
+    public function updateRealName() {
+        $realName = I('realname');
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $volunteer->realname = $realName;
+        $result = $volunteer->where("id=%d", $id)->save();
+        if($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
+    // 修改年龄
+    public function updateAge() {
+        $age = I('age');
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $volunteer->age = $age;
+        $result = $volunteer->where("id=%d", $id)->save();
+        if($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
+    // 修改性别
+    public function updateSex() {
+        $sex = I('sex');
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $volunteer->sex = $sex;
+        $result = $volunteer->where("id=%d", $id)->save();
+        if($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
+    // 修改身份证号
+    public function updateIdcard() {
+        $idcard = I('idcard');
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $volunteer->idcard = $idcard;
+        $result = $volunteer->where("id=%d", $id)->save();
+        if($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
+    // 修改电话
+    public function updatePhone() {
+        $phone = I('phone');
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $volunteer->phone = $phone;
+        $result = $volunteer->where("id=%d", $id)->save();
+        if($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
+    // 修改email
+    public function updateEmail() {
+        $email = I('email');
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $volunteer->email = $email;
+        $result = $volunteer->where("id=%d", $id)->save();
+        if($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
+    // 修改info
+    public function updateInfo() {
+        $info = I('info');
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $volunteer->info = $info;
+        $result = $volunteer->where("id=%d", $id)->save();
+        if($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
 
     // 修改个人信息
     public function changeVolunteerInfo() {
@@ -124,7 +252,7 @@ class AppController extends Controller {
         $sex = I('sex');
         $idcard = I('idcard');
         $phone = I('phone');
-        $address = I('email');
+        $email = I('email');
         $info = I('info');
         $uploadStuCardResult = $this->uploadPhoto('stucard');
         if($uploadStuCardResult == 0) {
@@ -136,7 +264,7 @@ class AppController extends Controller {
             $new_volunteer->sex = $sex;
             $new_volunteer->idcard = $idcard;
             $new_volunteer->phone = $phone;
-            $new_volunteer->address = $address;
+            $new_volunteer->address = $email;
             $new_volunteer->info = $info;
             $new_volunteer->stucard = $uploadStuCardResult;
             $new_volunteer->ispass = 0; // 调整为等待审核状态
@@ -155,6 +283,23 @@ class AppController extends Controller {
         $volunteer = M('volunteer');
         $ispass = $volunteer->where('id=%d', $id)->getField('ispass');
         echo $ispass;
+    }
+
+    // 实名认证
+    public function auth() {
+        $id = I('id');
+        $volunteer = M('volunteer');
+        $ispass = $volunteer->where('id=%d', $id)->getField("ispass");
+        if ($ispass == 0) {
+            echo '0'; // 已申请, 请等待
+        } else if ($ispass == -1) {
+            $result = $volunteer->where('id=%d', $id)->setField('ispass', 0);
+            if ($result) {
+                echo '1'; // 成功, 等待审核
+            } else {
+                echo '-1'; // 失败
+            }
+        }
     }
 
     // 报名参加公益活动
@@ -176,5 +321,13 @@ class AppController extends Controller {
                 echo '0'; // 报名失败
             }
         }
+    }
+
+    // 查看历史活动
+    public function historyInfo() {
+        $user_id = I('user_id');
+        $history = D('ApplyHistory');
+        $data = $history->where('userid=%d', $user_id)->order('time desc')->field('id,name,time,rate,isjoin')->select();
+        $this->ajaxReturn($data, 'json');
     }
 }

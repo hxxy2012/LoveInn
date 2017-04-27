@@ -10,15 +10,15 @@
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/LoveInn/Public/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Loveinn/Public/lib/font-awesome/css/font-awesome.min.css">
 
-    <script src="/LoveInn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/Loveinn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
 
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">

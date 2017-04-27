@@ -101,14 +101,19 @@ public class AinfoActivity extends AppCompatActivity {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            String responseText = response.body().string();
-                            if (responseText.equals("0")) {
-                                Toast.makeText(AinfoActivity.this, "报名失败, 请稍后重试", Toast.LENGTH_SHORT).show();
-                            } else if (responseText.equals("-1")) {
-                                Toast.makeText(AinfoActivity.this, "您已经报过名了哦!", Toast.LENGTH_SHORT).show();
-                            } else if (responseText.equals("1")) {
-                                Snackbar.make(v, "报名成功, 请到我的活动中查看!", Snackbar.LENGTH_SHORT).show();
-                            }
+                            final String responseText = response.body().string();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (responseText.equals("0")) {
+                                        Toast.makeText(AinfoActivity.this, "报名失败, 请稍后重试", Toast.LENGTH_SHORT).show();
+                                    } else if (responseText.equals("-1")) {
+                                        Toast.makeText(AinfoActivity.this, "您已经报过名了哦!", Toast.LENGTH_SHORT).show();
+                                    } else if (responseText.equals("1")) {
+                                        Snackbar.make(v, "报名成功, 请到我的活动中查看!", Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         }
                     });
                 }

@@ -65,10 +65,19 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        getVolunteerInfo();
+
         // 侧滑栏
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                //super.onDrawerOpened(drawerView);
+                // 填充用户图片与用户名
+                getVolunteerInfo();
+            }
+        };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -90,9 +99,6 @@ public class MainActivity extends AppCompatActivity
         // set up tab layout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        // 填充用户图片与用户名
-        getVolunteerInfo();
     }
 
     @Override
@@ -137,9 +143,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, UserActivity.class);
             startActivity(intent);
         } else if (id == R.id.my_activity) {
-
+            Intent intent = new Intent(this, HistoryActivity.class);
+            startActivity(intent);
         } else if (id == R.id.love_bank) {
-
+            Intent intent = new Intent(this, LoveMoneyActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_quit) {

@@ -1,8 +1,11 @@
 package com.waydrow.newloveinn.util;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.waydrow.newloveinn.HistoryActivity;
 import com.waydrow.newloveinn.bean.ActivityAll;
 import com.waydrow.newloveinn.bean.ActivitySummary;
+import com.waydrow.newloveinn.bean.HistoryItem;
 import com.waydrow.newloveinn.bean.Volunteer;
 
 import org.json.JSONArray;
@@ -50,5 +53,11 @@ public class Utility {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // 解析历史活动信息
+    public static List<HistoryItem> handleHistoryList(String response) {
+         return new Gson().fromJson(response,
+                new TypeToken<List<HistoryItem>>(){}.getType());
     }
 }
