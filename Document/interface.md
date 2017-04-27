@@ -388,12 +388,15 @@ post
 ### 15.3 send
 
 user_id: user's id
+
 ex_id: exchange item's id
+
 set_money: volunteer's current money minus exchange item's money, that is left money of volunteer
 
 ### 15.4 return
 
 1: successful
+
 0: failed
 
 
