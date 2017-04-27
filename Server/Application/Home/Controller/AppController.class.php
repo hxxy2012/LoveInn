@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
+use Think\Exception;
 use Think\Upload;
 
 class AppController extends Controller {
@@ -329,5 +330,41 @@ class AppController extends Controller {
         $history = D('ApplyHistory');
         $data = $history->where('userid=%d', $user_id)->order('time desc')->field('id,name,time,rate,isjoin')->select();
         $this->ajaxReturn($data, 'json');
+    }
+
+    // 爱心银行 获取兑换礼品信息
+    public function exchangeInfo() {
+        $exchange = M("exchange");
+        $data = $exchange->select();
+        $this->ajaxReturn($data, 'json');
+    }
+
+    // 申请礼品兑换
+    public function exchangeApply() {
+        $user_id = I('user_id');
+        $ex_id = I("ex_id");
+        $set_money = I("set_money");
+
+        $exapply = M('exapply');
+
+        $exapply->startTrans();
+        try {
+            $exapply->userid = $user_id;
+            $exapply->exid = $ex_id;
+            $result = $exapply->add();
+            $aresult = M("volunteer")->where("id=%d", $user_id)->setField("money", $set_money);
+            $exapply->commit();
+            echo "1";
+        } catch (Exception $e) {
+            $exapply->rollback();
+            echo '0';
+        }
+    }
+
+    // 获取爱心币
+    public function getMoney() {
+        $user_id = I('user_id');
+        $money = M("volunteer")->where("id=%d",$user_id)->getField("money");
+        echo $money;
     }
 }

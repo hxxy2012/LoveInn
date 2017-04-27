@@ -1,6 +1,6 @@
 # 爱心驿站APP接口
 
->   说明: 
+>   说明:
 >
 >   1.  下列所有接口的访问前缀为 https://qcloud.waydrow.com/LoveInn/index.php/Home/App/
 >
@@ -347,3 +347,70 @@ example
 ]
 ```
 
+## 14. 兑换的礼品信息
+
+### 14.1 interface
+`exchangeInfo`
+
+### 14.2 method
+
+get
+
+### 14.3 return
+
+example
+
+```json
+[
+  {
+    "id": "1",
+    "exname": "精致小台灯",
+    "exmoney": "10"
+  },
+  {
+    "id": "2",
+    "exname": "手机卡扣",
+    "exmoney": "16"
+  }
+]
+```
+
+## 15. 申请礼品兑换
+
+### 15.1 interface
+
+`exchangeApply`
+
+### 15.2 method
+
+post
+
+### 15.3 send
+
+user_id: user's id
+ex_id: exchange item's id
+set_money: volunteer's current money minus exchange item's money, that is left money of volunteer
+
+### 15.4 return
+
+1: successful
+0: failed
+
+
+## 16. 获取爱心币
+
+### 16.1 interface
+
+`getMoney`
+
+### 16.2 method
+
+post
+
+### 16.3 send
+
+user_id: user's id
+
+### 16.4 return
+
+money
