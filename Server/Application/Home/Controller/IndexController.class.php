@@ -74,7 +74,7 @@ class IndexController extends Controller {
                         $_SESSION['power'] = 1;
                     }
                     echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
-                    echo "<script>alert('登陆成功');</script>";
+                    echo "<script>alert('登录成功');</script>";
                     $this->redirect("/Home/Index");
                 } else {
                     echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
@@ -113,7 +113,6 @@ class IndexController extends Controller {
             $this->redirect("/Home/Index");
         }
     }
-
 
 
 
@@ -187,6 +186,124 @@ class IndexController extends Controller {
             $this->ajaxReturn("1");
         } else { // 失败
             $this->ajaxReturn("-1");
+        }
+    }
+
+    // 爱心银行功能, 礼品列表及添加礼品
+    public function exchanges() {
+        $exchange = M('exchange');
+        $list = $exchange->select();
+        $this->assign("list", $list);
+        $this->display();
+        if(IS_POST) { // 添加
+            if(isset($_POST['add'])) {
+                $new_exchange = M('exchange');
+                $data['exname'] = $_POST['exname'];
+                $data['exmoney'] = $_POST['exmoney'];
+                $result = $new_exchange->add($data);
+//                $result = $new_category->add();
+                if($result) {
+                    echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                    echo "<script>alert('添加成功');</script>";
+                    $this->redirect("/Home/Index/exchanges");
+                } else {
+                    echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                    echo '<script type="text/javascript">alert("添加失败")</script>';
+                    $this->redirect("/Home/Index/exchanges");
+                }
+            }
+        }
+    }
+
+    // 删除礼品
+    public function delexchange() {
+        $this->isAdminLogin();
+        $id = I('request.id');
+        $exchange = M('exchange');
+        $result = $exchange->delete($id);
+        if($result) {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('删除成功');</script>";
+            $this->redirect("/Home/Index/exchanges");
+        } else {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo '<script type="text/javascript">alert("删除失败")</script>';
+            $this->redirect("/Home/Index/exchanges");
+        }
+    }
+
+    // 修改礼品信息, ajax接口
+    public function change_exchange() {
+        $this->isAdminLogin();
+        $id = I('post.id');
+        $name = I('post.exname');
+        $money = I('post.exmoney');
+        $a_exchange = M('exchange');
+        $a_exchange->exname = $name;
+        $a_exchange->exmoney = $money;
+        $result1 = $a_exchange->where('id=%d', $id)->save();
+        if($result1) { // 成功
+            $this->ajaxReturn("1");
+        } else { // 失败
+            $this->ajaxReturn("-1");
+        }
+    }
+
+    // 礼品兑换申请列表
+    public function exapply() {
+        $exapplyUser = D('ExapplyUser');
+        $list = $exapplyUser->where('isend=0')->select();
+        $list_done = $exapplyUser->where('isend<>0')->select();
+        $this->assign("list", $list);
+        $this->assign("list_done", $list_done);
+        $this->display();
+    }
+
+    // 通过礼品兑换请求
+    public function exapply_success() {
+        $this->isAdminLogin();
+        $id = I('id');
+        $exapply = M('exapply');
+        $result = $exapply->where('id=%d', $id)->setField('isend', 1);
+        if($result) {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script type=\"text/javascript\">alert('通过成功');</script>";
+            $this->redirect("/Home/Index/exapply");
+        } else {
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo '<script type="text/javascript">alert("通过失败")</script>';
+            $this->redirect("/Home/Index/exapply");
+        }
+    }
+
+    // 拒绝礼品兑换请求
+    public function exapply_deny() {
+        $this->isAdminLogin();
+        $id = I('id');
+        $exapplyUser = D('ExapplyUser');
+        $userId = $exapplyUser->where('exapply.id=%d', $id)->getField('userid');
+        $exmoney = $exapplyUser->where('exapply.id=%d', $id)->getField('exmoney');
+        $exapply = M('exapply');
+        $exapply->startTrans();
+        try {
+            // 拒绝
+            $exapply->where('id=%d', $id)->setField('isend', -1);
+            // 返还 爱心币 到用户帐户
+            $volunteer = M('volunteer');
+            $nowmoney = $volunteer->where('id=%d', $userId)->getField('money');
+            $realmoney = $nowmoney + (int)$exmoney;
+            $volunteer->where('id=%d', $userId)->setField('money', $realmoney);
+
+            $exapply->commit();
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('拒绝成功');</script>";
+            $this->redirect("/Home/Index/exapply");
+
+        } catch (Exception $e) {
+            $exapply->rollback();
+            echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+            echo "<script>alert('拒绝失败');</script>";
+            $this->redirect("/Home/Index/exapply");
         }
     }
 
@@ -299,7 +416,6 @@ class IndexController extends Controller {
         }
     }
 
-
     // 组织者列表_已通过审核
     public function agencys() {
         $this->isAdminLogin();
@@ -368,8 +484,6 @@ class IndexController extends Controller {
             $this->redirect("/Home/Index/agencys_auth");
         }
     }
-
-
 
 
 

@@ -244,7 +244,6 @@ class AppController extends Controller {
         }
     }
 
-
     // 修改个人信息
     public function changeVolunteerInfo() {
         $id = I('id');
