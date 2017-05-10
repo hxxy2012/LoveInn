@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.waydrow.newloveinn.LoveMoneyActivity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -45,15 +46,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/money_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_below="@id/money_view"
+            android:layout_marginTop="20dp">
 
             <ListView
                 android:id="@+id/exchange_list_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
     </RelativeLayout>
 

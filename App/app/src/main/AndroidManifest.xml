@@ -32,7 +32,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
-            android:label="登录">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -146,10 +146,12 @@
         <activity
             android:name=".HistoryActivity"
             android:label="我的活动" />
-
         <activity
             android:name=".LoveMoneyActivity"
             android:label="爱心银行" />
+        <activity
+            android:name=".SubscribeActivity"
+            android:label="订阅设置"/>
     </application>
 
 </manifest>

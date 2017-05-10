@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.waydrow.newloveinn.util.API;
+import com.waydrow.newloveinn.util.PushUtil;
 
 import java.io.IOException;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText ext_userName;
 
     private EditText ext_password;
+
+    private static final int MSG_SET_ALIAS = 1001;
+
+    private static final String TAG = "LoginActivity";
 
 
     @Override
@@ -136,23 +145,81 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (!response.equals("0")){
+                    String userId = response.toString();
                     SharedPreferences.Editor editor = PreferenceManager.
                             getDefaultSharedPreferences(LoginActivity.this).edit();
                     editor.putString(API.PREF_USERNAME, ext_userName.getText().toString());
                     editor.putString(API.PREF_PASSWORD, ext_password.getText().toString());
-                    editor.putString(API.PREF_USER_ID, response.toString());
+                    editor.putString(API.PREF_USER_ID, userId);
                     editor.apply();
+
+                    // 为当前用户设置别名
+                    setAlias(userId);
 
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
-                else{
+                else {
                     Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
+    // 设置别名
+    private void setAlias(String alias){
+        //调用JPush API设置Alias
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
+    }
+
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    Log.d(TAG, "Set alias in handler.");
+                    JPushInterface.setAlias(getApplicationContext(), (String) msg.obj, mAliasCallback);
+                    //JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
+                    break;
+
+                default:
+                    Log.i(TAG, "Unhandled msg - " + msg.what);
+            }
+        }
+    };
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
+            switch (code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.i(TAG, logs);
+                    break;
+
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);
+                    if (PushUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    } else {
+                        Log.i(TAG, "No network");
+                    }
+                    break;
+
+                default:
+                    logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);
+            }
+
+            //PushUtil.showToast(logs, getApplicationContext());
+        }
+
+    };
 
 }

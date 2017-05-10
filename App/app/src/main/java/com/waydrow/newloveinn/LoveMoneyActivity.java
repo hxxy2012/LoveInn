@@ -1,12 +1,14 @@
 package com.waydrow.newloveinn;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +40,7 @@ public class LoveMoneyActivity extends AppCompatActivity implements AdapterView.
     private static final String TAG = "HistoryActivity";
     // 用户 id
     private String userId;
+
     private ProgressDialog progressDialog;
 
     private ListView listView;
@@ -206,16 +209,14 @@ public class LoveMoneyActivity extends AppCompatActivity implements AdapterView.
         Toast.makeText(this, position, Toast.LENGTH_SHORT).show();
     }
 
+    // 兑换按钮
     @Override
     public void click(final View v) {
-        /*Toast.makeText(LoveMoneyActivity.this, "listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag() + ",内容是-->"
-                        + exchangeItemList.get((Integer) v.getTag()),
-                Toast.LENGTH_SHORT).show();*/
         // 获取到点击的位置
         int position = Integer.valueOf(v.getTag().toString());
         ExchangeItem clickItem = exchangeItemList.get(position);
         // 获取点击的礼品 id
-        String exid = clickItem.getId();
+        final String exid = clickItem.getId();
         // 获取点击的礼品 money
         final int exmoney = Integer.valueOf(clickItem.getExmoney());
         // 当前剩余的爱心币
@@ -226,40 +227,50 @@ public class LoveMoneyActivity extends AppCompatActivity implements AdapterView.
             return;
         }
 
-        String url = API.INTERFACE + "exchangeApply";
-        RequestBody body = new FormBody.Builder()
-                .add("user_id", userId)
-                .add("ex_id", exid)
-                .add("set_money", String.valueOf(currentMoney-exmoney))
-                .build();
-        HttpUtil.sendPostRequest(url, body, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoveMoneyActivity.this);
+        builder.setTitle("兑换礼品")
+                .setMessage("您确定要用 " + exmoney + " 个爱心币兑换" + clickItem.getExname() + "吗 ?")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void run() {
-                        Toast.makeText(LoveMoneyActivity.this, "兑换失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = API.INTERFACE + "exchangeApply";
+                        RequestBody body = new FormBody.Builder()
+                                .add("user_id", userId)
+                                .add("ex_id", exid)
+                                .add("set_money", String.valueOf(currentMoney-exmoney))
+                                .build();
+                        HttpUtil.sendPostRequest(url, body, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(LoveMoneyActivity.this, "兑换失败", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String responseText = response.body().string();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (responseText.equals("0")) {
-                            Toast.makeText(LoveMoneyActivity.this, "兑换失败", Toast.LENGTH_SHORT).show();
-                        } else if (responseText.equals("1")) {
-                            // 更改余额
-                            String tmpText = String.valueOf(currentMoney - exmoney);
-                            moneyTextView.setText(tmpText);
-                            Snackbar.make(v, "兑换成功, 请等待通知", Snackbar.LENGTH_LONG).show();
-                        }
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                final String responseText = response.body().string();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (responseText.equals("0")) {
+                                            Toast.makeText(LoveMoneyActivity.this, "兑换失败", Toast.LENGTH_SHORT).show();
+                                        } else if (responseText.equals("1")) {
+                                            // 更改余额
+                                            String tmpText = String.valueOf(currentMoney - exmoney);
+                                            moneyTextView.setText(tmpText);
+                                            Snackbar.make(v, "兑换成功, 请等待通知", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
-                });
-            }
-        });
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 }
