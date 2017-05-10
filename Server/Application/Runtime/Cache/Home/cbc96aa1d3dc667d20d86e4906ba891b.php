@@ -11,13 +11,13 @@
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/LoveInn/Public/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Loveinn/Public/lib/font-awesome/css/font-awesome.min.css">
 
-    <script src="/LoveInn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/Loveinn/Public/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="/LoveInn/Public/stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="/Loveinn/Public/stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">
@@ -141,6 +141,16 @@
                     <li><a href="<?php echo U('/Home/Index/applies');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
+            <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".bank-menu"
+                                                                            class="nav-header"
+                                                                            data-toggle="collapse"><i
+                    class="fa fa-fw fa-fighter-jet"></i>爱心银行<i class="fa fa-collapse"></i></a></li>
+            <li>
+                <ul class="bank-menu nav nav-list collapse in">
+                    <li><a href="<?php echo U('/Home/Index/exchanges');?>"><span class="fa fa-caret-right"></span>礼品管理</a></li>
+                    <li><a href="<?php echo U('/Home/Index/exapply');?>"><span class="fa fa-caret-right"></span>申请列表</a></li>
+                </ul>
+            </li>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".premium-menu"
                                                                             class="nav-header"
                                                                             data-toggle="collapse"><i
@@ -233,7 +243,7 @@
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
 <script src="//cdn.bootcss.com/zui/1.5.0/js/zui.min.js"></script>
 
-<!--<script src="/LoveInn/Public/lib/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script src="/Loveinn/Public/lib/bootstrap/js/bootstrap.min.js"></script>-->
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

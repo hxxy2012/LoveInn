@@ -4,7 +4,74 @@ namespace Home\Controller;
 use Think\Controller;
 use Think\Exception;
 
+require_once ('./vendor/autoload.php');
+use JPush\Client as JPush;
+
 class IndexController extends Controller {
+
+    // 封装推送方法, $title为推送标题, $text为推送内容
+    private function pushNotification($title, $text) {
+        $app_key = 'c6fbbcf48150db0cce0d46aa';
+        $master_secret = '577e6a087b01ac162eb117eb';
+
+        $client = new JPush($app_key, $master_secret);
+
+        if(is_null($title)) {
+            $title = '爱心驿站';
+        }
+        if(is_null($text)) {
+            $text = '来自爱心驿站的提醒';
+        }
+
+        $push_payload = $client->push()
+            ->setPlatform('all')
+            ->addAllAudience()
+            ->setNotificationAlert('hi jpush')
+            ->androidNotification($text, array(
+                'title' => $title
+            ));
+        try {
+            $response = $push_payload->send();
+        }catch (\JPush\Exceptions\APIConnectionException $e) {
+            // try something here
+            print $e;
+        } catch (\JPush\Exceptions\APIRequestException $e) {
+            // try something here
+            print $e;
+        }
+    }
+
+    // 封装推送方法, $title为推送标题, $text为推送内容
+    private function pushNotificationForAlias($title, $text, $aliasArray) {
+        $app_key = 'c6fbbcf48150db0cce0d46aa';
+        $master_secret = '577e6a087b01ac162eb117eb';
+
+        $client = new JPush($app_key, $master_secret);
+
+        if(is_null($title)) {
+            $title = '爱心驿站';
+        }
+        if(is_null($text)) {
+            $text = '来自爱心驿站的提醒';
+        }
+
+        $push_payload = $client->push()
+            ->setPlatform('all')
+            ->addAlias($aliasArray)
+            ->setNotificationAlert('hi jpush')
+            ->androidNotification($text, array(
+                'title' => $title
+            ));
+        try {
+            $response = $push_payload->send();
+        }catch (\JPush\Exceptions\APIConnectionException $e) {
+            // try something here
+            print $e;
+        } catch (\JPush\Exceptions\APIRequestException $e) {
+            // try something here
+            print $e;
+        }
+    }
 
     // 自动运行方法,判断是否登录
     public function _initialize() {
@@ -264,8 +331,15 @@ class IndexController extends Controller {
         $this->isAdminLogin();
         $id = I('id');
         $exapply = M('exapply');
+        $userid = $exapply->where('id=%d', $id)->getField('userid');
         $result = $exapply->where('id=%d', $id)->setField('isend', 1);
         if($result) {
+            $title = '爱心驿站';
+            $text = '恭喜, 礼品兑换审核已通过';
+            $alias = array();
+            $alias[] = $userid;
+            $this->pushNotificationForAlias($title, $text, $alias);
+
             echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
             echo "<script type=\"text/javascript\">alert('通过成功');</script>";
             $this->redirect("/Home/Index/exapply");
@@ -295,6 +369,12 @@ class IndexController extends Controller {
             $volunteer->where('id=%d', $userId)->setField('money', $realmoney);
 
             $exapply->commit();
+
+            $title = '爱心驿站';
+            $text = '很遗憾, 礼品兑换审核未通过, 相应爱心币已返还到您的帐户';
+            $alias = array();
+            $alias[] = $userId;
+            $this->pushNotificationForAlias($title, $text, $alias);
             echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
             echo "<script>alert('拒绝成功');</script>";
             $this->redirect("/Home/Index/exapply");
@@ -389,6 +469,13 @@ class IndexController extends Controller {
         $volunteer = M('volunteer');
         $result = $volunteer->where('id=%d', $id)->setField('ispass', 1);
         if ($result) {
+
+            $title = '爱心驿站';
+            $text = '恭喜, 实名认证成功!';
+            $alias = array();
+            $alias[] = $id;
+            $this->pushNotificationForAlias($title, $text, $alias);
+
             echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
             echo "<script>alert('审核通过成功');</script>";
             $this->redirect("/Home/Index/volunteers_auth");
@@ -406,6 +493,12 @@ class IndexController extends Controller {
         $volunteer = M('volunteer');
         $result = $volunteer->where('id=%d', $id)->setField('ispass', -1);
         if ($result) {
+
+            $title = '爱心驿站';
+            $text = '很遗憾, 实名认证失败, 请完善您的资料!';
+            $alias = array();
+            $alias[] = $id;
+            $this->pushNotificationForAlias($title, $text, $alias);
             echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
             echo "<script>alert('审核拒绝成功');</script>";
             $this->redirect("/Home/Index/volunteers_auth");
@@ -715,13 +808,15 @@ class IndexController extends Controller {
 
             if(IS_POST) {
                 $activity = M('activity');
-                $activity->name = $_POST['name'];
+                $name = $_POST['name'];
+                $categoryId = $_POST['category'];
+                $activity->name = $name;
                 $activity->begintime = $_POST['begintime'];
                 $activity->endtime = $_POST['endtime'];
                 $activity->location = $_POST['location'];
                 $activity->contact = $_POST['contact'];
                 $activity->capacity = $_POST['capacity'];
-                $activity->categoryid = $_POST['category'];
+                $activity->categoryid = $categoryId;
                 $activity->summary = $_POST['summary'];
                 $activity->info = $_POST['info'];
                 $uploadPhotoResult = $this->uploadPhoto('photo');
@@ -732,6 +827,16 @@ class IndexController extends Controller {
                 $activity->agencyid = $agency_id;
                 $result = $activity->add();
                 if($result) {
+
+                    // 定向发出推送
+                    // 根据种类 id 查找该各种类的活动曾参与过的用户
+                    $applyCategory = D('ApplyCategory');
+                    $users = $applyCategory->where('categoryid=%d', $categoryId)->getField('userid', true);
+                    if ($users) {
+                        $title = '又有新的公益活动发布啦';
+                        $this->pushNotificationForAlias($title, $name, $users);
+                    }
+
                     echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
                     echo "<script>alert('添加成功');</script>";
                     $this->redirect("/Home/Index/a_activities");
@@ -775,10 +880,17 @@ class IndexController extends Controller {
         $apply = M('apply');
         $apply->startTrans();
         try {
+            $aliasArray = array();
             foreach ($ids as $id) {
+                $userId = $apply->where("id=%d", $id)->getField('userid');
+                $aliasArray[] = $userId;
                 $apply->where('id=%d', $id)->setField('isjoin', 1);
             }
             $apply->commit();
+            // 推送报名成功的提醒
+            $title = "爱心驿站";
+            $text = "您报名参加的活动审核通过了!";
+            $this->pushNotificationForAlias($title, $text, $aliasArray);
             echo '1';
         } catch(Exception $e) {
             $apply->rollback();
@@ -793,10 +905,17 @@ class IndexController extends Controller {
         $apply = M('apply');
         $apply->startTrans();
         try {
+            $alias = array();
             foreach ($ids as $id) {
+                $userid = $apply->where('id=%d', $id)->getField('userid');
+                $alias[] = $userid;
                 $apply->where('id=%d', $id)->setField('isjoin', -1);
             }
             $apply->commit();
+            // 推送报名失败的提醒
+            $title = "爱心驿站";
+            $text = "很遗憾, 您报名参加的活动审核未通过";
+            $this->pushNotificationForAlias($title, $text, $alias);
             echo '1';
         } catch(Exception $e) {
             $apply->rollback();
