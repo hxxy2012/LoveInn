@@ -426,7 +426,6 @@ class IndexController extends Controller {
         $this->display();
     }
 
-
     // 志愿者列表_已通过审核
     public function volunteers() {
         $this->isAdminLogin();
@@ -810,9 +809,11 @@ class IndexController extends Controller {
                 $activity = M('activity');
                 $name = $_POST['name'];
                 $categoryId = $_POST['category'];
+                $beginTime = $_POST['begintime'];
+                $endTime = $_POST['endtime'];
                 $activity->name = $name;
-                $activity->begintime = $_POST['begintime'];
-                $activity->endtime = $_POST['endtime'];
+                $activity->begintime = $beginTime;
+                $activity->endtime = $endTime;
                 $activity->location = $_POST['location'];
                 $activity->contact = $_POST['contact'];
                 $activity->capacity = $_POST['capacity'];
@@ -832,9 +833,11 @@ class IndexController extends Controller {
                     // 根据种类 id 查找该各种类的活动曾参与过的用户
                     $applyCategory = D('ApplyCategory');
                     $users = $applyCategory->where('categoryid=%d', $categoryId)->getField('userid', true);
+                    $title = '又有新的公益活动发布啦';
                     if ($users) {
-                        $title = '又有新的公益活动发布啦';
                         $this->pushNotificationForAlias($title, $name, $users);
+                    } else {
+                        $this->pushNotification($title, $name);
                     }
 
                     echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
@@ -969,20 +972,30 @@ class IndexController extends Controller {
         $apply = M('apply');
         $apply->startTrans();
         try {
+            // 获取该活动id
+            $activity_id = M('apply')->where('id=%d', $rates[0]['id'])->getField('activityid');
+            $activity = M('activity');
+            $beg = $activity->where('id=%d', $activity_id)->getField('begintime');
+            $end = $activity->where('id=%d', $activity_id)->getField('endtime');
+            $time = (int)(strtotime($end) - strtotime($beg));
+            $len = $time / 3600;
             foreach ($rates as $rate) {
                 // 给每位志愿者评分
                 $apply->where('id=%d', $rate['id'])->setField('rate', $rate['rate']);
-                // 按照积分规则, 爱心币每次累加评分*2
-                $money = $rate['rate']*2;
+                // 按照积分规则
+                // 1个小时工时 -> 10个爱心币
+                // 设 x 个小时
+                // 评分范围 0-10 分 -> 设为 y 个评分
+                // 爱心币 = x * y * 0.1
+                $x = $rate['rate'] * 2;
+                $money = $len * 10 * $x * 0.1;
                 $volunteer = M('volunteer');
                 // 获取志愿者id
                 $volunteer_id = $apply->where('id=%d', $rate['id'])->getField('userid');
                 // 积累爱心币
                 $volunteer->where('id=%d', $volunteer_id)->setInc('money', $money);
             }
-            // 获取该活动id
-            $activity_id = M('apply')->where('id=%d', $rates[0]['id'])->getField('activityid');
-            $activity = M('activity');
+
             // 将该活动israte是否已评分标志位置为1
             $activity->where('id=%d', $activity_id)->setField('israte', 1);
             $apply->commit();

@@ -25,6 +25,8 @@ import com.waydrow.newloveinn.util.API;
 import com.waydrow.newloveinn.util.HttpUtil;
 import com.waydrow.newloveinn.util.Utility;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.TooManyListenersException;
 
@@ -43,6 +45,12 @@ public class AinfoActivity extends AppCompatActivity {
 
     private TextView activityInfoTextView; // 详情
 
+    private TextView beginTimeTextView;
+    private TextView endTimeTextView;
+    private TextView locationTextView;
+    private TextView contactTextView;
+    private TextView capacityTextView;
+
     private ImageView activityImageView; // 活动图片
 
     private CollapsingToolbarLayout collapsingToolbar;
@@ -56,8 +64,14 @@ public class AinfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ainfo);
         // init
+        beginTimeTextView = (TextView) findViewById(R.id.begintime_textview);
+        endTimeTextView = (TextView) findViewById(R.id.endtime_textview);
+        locationTextView = (TextView) findViewById(R.id.location_textview);
+        contactTextView = (TextView) findViewById(R.id.contact_textview);
+        capacityTextView = (TextView) findViewById(R.id.capacity_textview);
+
         activityImageView = (ImageView) findViewById(R.id.activity_image_view);
-        activityInfoTextView = (TextView) findViewById(R.id.activity_info);
+        activityInfoTextView = (TextView) findViewById(R.id.info_textview);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -145,6 +159,11 @@ public class AinfoActivity extends AppCompatActivity {
                                 .thumbnail(0.1f)
                                 .into(activityImageView);
                         collapsingToolbar.setTitle(activityAll.getName());
+                        beginTimeTextView.setText(activityAll.getBegintime());
+                        endTimeTextView.setText(activityAll.getEndtime());
+                        locationTextView.setText(activityAll.getLocation());
+                        contactTextView.setText(activityAll.getContact());
+                        capacityTextView.setText(activityAll.getCapacity());
                         activityInfoTextView.setText(activityAll.getInfo());
                         closeProgressDialog();
                     }

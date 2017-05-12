@@ -351,9 +351,10 @@
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
+        minView: 1,
         forceParse: 0,
         showMeridian: 1,
-        format: "yyyy-mm-dd hh:ii"
+        format: "yyyy-mm-dd hh:00"
     });
 </script>
         

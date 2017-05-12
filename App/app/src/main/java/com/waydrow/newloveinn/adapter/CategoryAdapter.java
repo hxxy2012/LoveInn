@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.waydrow.newloveinn.fragment.ActivityFragment;
-import com.waydrow.newloveinn.fragment.OrganizationFragment;
+import com.waydrow.newloveinn.fragment.AgencyFragment;
 
 /**
  * Created by Waydrow on 2016/11/27.
@@ -26,7 +26,7 @@ public class CategoryAdapter extends FragmentPagerAdapter {
         if(position == 0) {
             return new ActivityFragment();
         } else {
-            return new OrganizationFragment();
+            return new AgencyFragment();
         }
     }
 

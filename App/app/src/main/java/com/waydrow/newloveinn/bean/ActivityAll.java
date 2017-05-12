@@ -28,7 +28,7 @@ public class ActivityAll {
 
     private int agencyid;
 
-    private int capacity;
+    private String capacity;
 
     private int isend;
 
@@ -120,11 +120,11 @@ public class ActivityAll {
         this.agencyid = agencyid;
     }
 
-    public int getCapacity() {
+    public String getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(String capacity) {
         this.capacity = capacity;
     }
 

@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.waydrow.newloveinn.HistoryActivity;
 import com.waydrow.newloveinn.bean.ActivityAll;
 import com.waydrow.newloveinn.bean.ActivitySummary;
+import com.waydrow.newloveinn.bean.Agency;
 import com.waydrow.newloveinn.bean.ExchangeItem;
 import com.waydrow.newloveinn.bean.HistoryItem;
 import com.waydrow.newloveinn.bean.Volunteer;
@@ -66,5 +67,11 @@ public class Utility {
     public static List<ExchangeItem> handleExchangeList(String response) {
         return new Gson().fromJson(response,
                 new TypeToken<List<ExchangeItem>>(){}.getType());
+    }
+
+    // 解析兑换礼品信息
+    public static List<Agency> handleAgencyList(String response) {
+        return new Gson().fromJson(response,
+                new TypeToken<List<Agency>>(){}.getType());
     }
 }

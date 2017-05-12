@@ -53,6 +53,8 @@ public class LoveMoneyActivity extends AppCompatActivity implements AdapterView.
 
     private TextView moneyTextView;
 
+    private TextView hoursTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,7 @@ public class LoveMoneyActivity extends AppCompatActivity implements AdapterView.
         userId = prefs.getString(API.PREF_USER_ID, null);
 
         moneyTextView = (TextView) findViewById(R.id.money_num_text);
+        hoursTextView = (TextView) findViewById(R.id.hours_num_text);
         listView = (ListView) findViewById(R.id.exchange_list_view);
         exchangeAdapter = new ExchangeAdapter(this, exchangeItemList, this);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -142,6 +145,28 @@ public class LoveMoneyActivity extends AppCompatActivity implements AdapterView.
                     @Override
                     public void run() {
                         moneyTextView.setText(responseText);
+                    }
+                });
+            }
+        });
+
+        String aaurl = API.INTERFACE + "getHours";
+        RequestBody abody = new FormBody.Builder()
+                .add("user_id", userId)
+                .build();
+        HttpUtil.sendPostRequest(aaurl, abody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseText = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hoursTextView.setText(responseText);
                     }
                 });
             }

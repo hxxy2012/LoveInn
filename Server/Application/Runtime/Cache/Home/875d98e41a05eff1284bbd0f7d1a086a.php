@@ -141,6 +141,16 @@
                     <li><a href="<?php echo U('/Home/Index/applies');?>"><span class="fa fa-caret-right"></span>报名管理</a></li>
                 </ul>
             </li>
+            <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".bank-menu"
+                                                                            class="nav-header"
+                                                                            data-toggle="collapse"><i
+                    class="fa fa-fw fa-fighter-jet"></i>爱心银行<i class="fa fa-collapse"></i></a></li>
+            <li>
+                <ul class="bank-menu nav nav-list collapse in">
+                    <li><a href="<?php echo U('/Home/Index/exchanges');?>"><span class="fa fa-caret-right"></span>礼品管理</a></li>
+                    <li><a href="<?php echo U('/Home/Index/exapply');?>"><span class="fa fa-caret-right"></span>申请列表</a></li>
+                </ul>
+            </li>
             <li data-popover="true" rel="popover" data-placement="right"><a href="#" data-target=".premium-menu"
                                                                             class="nav-header"
                                                                             data-toggle="collapse"><i
@@ -252,7 +262,7 @@
             cancelOff: 'cancel-off-big.png',
             starHalf : 'star-half-big.png',
             starOff  : 'star-off-big.png',
-            starOn   : 'star-on-big.png',
+            starOn   : 'star-on-big.png'
         });
 
         // 提交评分

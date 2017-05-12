@@ -50,6 +50,20 @@ class AppController extends Controller {
         $this->ajaxReturn($list, 'json');
     }
 
+    // 获取组织机构列表
+    public function getAgencyList() {
+        $activity = M('agency');
+        $list = $activity->where('ispass=1')->field('id, name, photo, address, contact, certification')->order('id desc')->select();
+        $this->ajaxReturn($list, 'json');
+    }
+
+    // Android 讲课使用
+    public function getInfoList() {
+        $activity = M('activity');
+        $list = $activity->where('isend=0')->field('id, name, summary, photo')->order('id desc')->select();
+        $this->ajaxReturn($list, 'json');
+    }
+
     // 按活动id获取活动详情
     public function getActivityInfoById() {
         $id = I('id');
@@ -365,5 +379,22 @@ class AppController extends Controller {
         $user_id = I('user_id');
         $money = M("volunteer")->where("id=%d",$user_id)->getField("money");
         echo $money;
+    }
+
+    // 获取工时
+    public function getHours() {
+        $user_id = I('user_id');
+        $applyHours = D('ApplyHours');
+        $list = $applyHours->where('userid=%d AND isjoin=1 AND israte=1', $user_id)->select();
+        $sum = 0;
+        foreach ($list as $item) {
+            $beg = $item['begintime'];
+            $end = $item['endtime'];
+            $begintime = strtotime($beg);
+            $endtime = strtotime($end);
+            $len = (int)($endtime - $begintime) / 3600;
+            $sum = $sum + $len;
+        }
+        echo $sum;
     }
 }

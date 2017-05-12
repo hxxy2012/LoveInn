@@ -395,11 +395,7 @@ public class UserActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String inputText = et.getText().toString();
-                                if (inputText.length() != 18) {
-                                    Toast.makeText(UserActivity.this, "输入不合法", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    updateIdcard(inputText);
-                                }
+                                updateIdcard(inputText);
                             }
                         })
                         .setNegativeButton("取消", null)
