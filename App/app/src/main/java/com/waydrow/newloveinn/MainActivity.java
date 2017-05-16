@@ -37,6 +37,8 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.R.attr.id;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -115,6 +117,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.love_bank) {
             Intent intent = new Intent(this, LoveMoneyActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.my_subscribe) {
+            Intent intent = new Intent(this, SubscribeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_quit) {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();

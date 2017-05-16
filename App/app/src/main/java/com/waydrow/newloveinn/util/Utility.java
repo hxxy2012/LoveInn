@@ -8,6 +8,7 @@ import com.waydrow.newloveinn.bean.ActivitySummary;
 import com.waydrow.newloveinn.bean.Agency;
 import com.waydrow.newloveinn.bean.ExchangeItem;
 import com.waydrow.newloveinn.bean.HistoryItem;
+import com.waydrow.newloveinn.bean.Subscribe;
 import com.waydrow.newloveinn.bean.Volunteer;
 
 import org.json.JSONArray;
@@ -69,9 +70,15 @@ public class Utility {
                 new TypeToken<List<ExchangeItem>>(){}.getType());
     }
 
-    // 解析兑换礼品信息
+    // 解析组织机构列表
     public static List<Agency> handleAgencyList(String response) {
         return new Gson().fromJson(response,
                 new TypeToken<List<Agency>>(){}.getType());
+    }
+
+    // 解析订阅列表
+    public static List<Subscribe> handleSubscribeList(String response) {
+        return new Gson().fromJson(response,
+                new TypeToken<List<Subscribe>>(){}.getType());
     }
 }
