@@ -107,3 +107,12 @@
 | userid | int  | 申请人 id |         |
 | exid   | int  | 礼品 id  |         |
 | isend  | int  | 是否处理完毕 | 0 (未处理) |
+
+
+### subscribe (用户订阅表)
+
+| 字段     | 类型   | 说明     | 默认值     |
+| ------ | ---- | ------ | ------- |
+| id     | int  | 标识     |         |
+| userid | int  | 用户 id |         |
+| categoryid | int  | 种类 id  |         |
