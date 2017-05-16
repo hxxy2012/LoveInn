@@ -831,8 +831,12 @@ class IndexController extends Controller {
 
                     // 定向发出推送
                     // 根据种类 id 查找该各种类的活动曾参与过的用户
+                    $subscribe = M('subscribe');
+                    $users = $subscribe->where('categoryid=%d', $categoryId)->getField("userid", true);
+                    /*
                     $applyCategory = D('ApplyCategory');
                     $users = $applyCategory->where('categoryid=%d', $categoryId)->getField('userid', true);
+                    */
                     $title = '又有新的公益活动发布啦';
                     if ($users) {
                         $this->pushNotificationForAlias($title, $name, $users);

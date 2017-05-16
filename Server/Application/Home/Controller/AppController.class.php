@@ -397,4 +397,50 @@ class AppController extends Controller {
         }
         echo $sum;
     }
+
+    // 用户订阅
+    // 获取种类列表
+    public function getCategoryList() {
+        $user_id = I('userid');
+        $category = M("category");
+        $data = $category->select();
+        $subscribe = M('subscribe');
+        foreach ($data as &$item) {
+            $result = $subscribe->where('userid=%d and categoryid=%d', $user_id, $item['id'])->find();
+            if ($result) {
+                $item['isSub'] = 1;
+            } else {
+                $item['isSub'] = 0;
+            }
+        }
+        $this->ajaxReturn($data, 'json');
+    }
+
+    // 用户订阅某个种类
+    public function userSubscribe() {
+        $user_id = I('userid');
+        $category_id = I('category_id');
+        $subscribe = M('subscribe');
+        $subscribe->userid = $user_id;
+        $subscribe->categoryid = $category_id;
+        $result = $subscribe->add();
+        if ($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
+
+    // 用户取消订阅某个种类
+    public function userCancelSubscribe() {
+        $user_id = I('userid');
+        $category_id = I('category_id');
+        $subscribe = M('subscribe');
+        $result = $subscribe->where('userid=%d and categoryid=%d', $user_id, $category_id)->delete();
+        if ($result) {
+            echo '1';
+        } else {
+            echo '0';
+        }
+    }
 }
